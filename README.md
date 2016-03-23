@@ -1,2 +1,2 @@
 # centralconfig-ui
-UI for the centralconfig service
+UI for the [centralconfig service](https://github.com/danesparza/centralconfig)
