@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+
 window.React = React; // export for http://fb.me/react-devtools
 
 //	The API utils
@@ -10,5 +12,8 @@ import CentralConfigApp from './components/CentralConfigApp.react';
 //	Application element
 var appElement = document.getElementById("centralconfigapp");
 
+//	Get initial config items:
+CentralConfigAPIUtils.getAllConfigItems();
+
 //	Start the app
-React.render(<CentralConfigApp />, appElement);
+ReactDOM.render(<CentralConfigApp />, appElement);

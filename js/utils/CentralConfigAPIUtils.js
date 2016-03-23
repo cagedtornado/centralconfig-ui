@@ -1,4 +1,6 @@
 
+import nprogress from 'nprogress';
+
 //	Actions
 
 //	Stores
@@ -13,7 +15,10 @@ class CentralConfigAPIUtils {
 	getAllConfigItems(){
 
 		//  Format the url
-        let url = `https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (SELECT woeid FROM geo.placefinder WHERE text="${latitude},${longitude}" and gflags="R")&format=json`;
+        let url = `/config/getall`;
+
+        console.time("Fetched config data");
+        nprogress.start();
 
         $.ajax( url )
         .done(function(data) {
@@ -23,6 +28,12 @@ class CentralConfigAPIUtils {
         .fail(function() {
             //  Something bad happened
             console.log("There was a problem getting config items");
+        })
+        .always(function(){
+            console.timeEnd("Fetched config data");
+            nprogress.done();
         });
 	}
 }
+
+module.exports = new CentralConfigAPIUtils();
