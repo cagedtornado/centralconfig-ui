@@ -15,6 +15,7 @@
   "dependencies": {
     "cookies-js": "^1.0.0",
     "director": "^1.2.7",
+    "fixed-data-table": "^0.6.0",
     "flux": "^2.1.1",
     "keymirror": "~0.1.0",
     "moment": "^2.9.0",
