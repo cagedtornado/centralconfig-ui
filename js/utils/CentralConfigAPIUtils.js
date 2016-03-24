@@ -2,8 +2,7 @@
 import nprogress from 'nprogress';
 
 //	Actions
-
-//	Stores
+import ConfigActions from '../actions/ConfigActions';
 
 class CentralConfigAPIUtils {
 
@@ -23,7 +22,7 @@ class CentralConfigAPIUtils {
         $.ajax( url )
         .done(function(data) {
             //  Call the action to receive the data:
-            //	WeatherActions.recieveWeatherData(weatherdata);
+            ConfigActions.recieveConfigData(data.data);
         }.bind(this))
         .fail(function() {
             //  Something bad happened
@@ -36,4 +35,4 @@ class CentralConfigAPIUtils {
 	}
 }
 
-module.exports = new CentralConfigAPIUtils();
+export default new CentralConfigAPIUtils();

@@ -2,8 +2,7 @@ import {Component} from 'react';
 import {Table, Column, Cell} from 'fixed-data-table';
 
 //	The stores
-
-
+import ConfigStore from '../stores/ConfigStore';
 
 class CentralConfigApp extends Component {
 
@@ -11,15 +10,24 @@ class CentralConfigApp extends Component {
 
 		super(props);
 
-		this.state = {
-			myTableData: [
-			{name: 'Rylan'},
-			{name: 'Amelia'},
-			{name: 'Estevan'},
-			{name: 'Florence'},
-			{name: 'Tressa'},
-			],
-		};
+		//  Set initial state:
+	    this.state = {
+	      configItems: ConfigStore.getConfigItems()
+	    };
+
+	    //  Bind our events:
+    	this._onChange = this._onChange.bind(this);
+
+	}
+
+	componentDidMount() {
+	    //  Add store listeners ... and notify ME of changes
+	    this.configListener = ConfigStore.addListener(this._onChange);
+	}
+
+	componentWillUnmount() {
+	    //  Remove store listeners
+	    this.configListener.remove();
 	}
 
 	render() {
@@ -29,7 +37,7 @@ class CentralConfigApp extends Component {
 		return (
 			
 			<Table
-			rowsCount={this.state.myTableData.length}
+			rowsCount={this.state.configItems.length}
 			rowHeight={40}
 			headerHeight={40}
 			width={800}
@@ -39,7 +47,7 @@ class CentralConfigApp extends Component {
 			header={<Cell>Name</Cell>}
 			cell={props => (
 				<Cell {...props}>
-				{this.state.myTableData[props.rowIndex].name}
+				{this.state.configItems[props.rowIndex].name}
 				</Cell>
 				)}
 			width={200}
@@ -48,6 +56,12 @@ class CentralConfigApp extends Component {
 
 			);
 	}
+
+	_onChange() {
+    	this.setState({
+	      configItems: ConfigStore.getConfigItems()
+	    });
+  	}
 
 }
 
