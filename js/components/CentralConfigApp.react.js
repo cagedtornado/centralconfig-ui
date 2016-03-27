@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import moment from 'moment';
 
 //  Grid component
-import DataGrid from 'react-datagrid';
+import FixedDataTable from 'fixed-data-table';
+const {Table, Column, Cell} = FixedDataTable;
 
 //	The stores
 import ConfigStore from '../stores/ConfigStore';
@@ -16,30 +17,12 @@ class CentralConfigApp extends Component {
 
 		//  Set initial state:
 		this.state = {
-			columns : [
-				{ name: 'id', title: 'Id', width: 75 },
-				{ name: 'application', title: 'Application', width: 175  },
-				{ name: 'name', title: 'Name', width: 150  },
-				{ name: 'value', title: 'Value', width: 300  },
-				{ name: 'machine', title: 'Machine', width: 150  },
-				{ name: 'updated', title: 'Last updated', width: 150, render: function(v){return moment(v).format('MMM-D h:mm a');} },
-			],
-			configItems: [],
-			selectedItem: {},
-			SELECTED_ID: '',
-			itemcount: 0,
-			totalcount: 0
-			      
+			configItems: []
 	    };
 
 	    //  Bind our events: 
-	    this.onColumnResize = this.onColumnResize.bind(this);
-	    this.onColumnOrderChange = this.onColumnOrderChange.bind(this);
-	    this.onSelectionChange = this.onSelectionChange.bind(this);
-	    this.handleFilter = this.handleFilter.bind(this);
-	    this.onColumnVisibilityChange = this.onColumnVisibilityChange.bind(this);
-	    this.handleRowStyle = this.handleRowStyle.bind(this);
     	this._onChange = this._onChange.bind(this);
+    	this.handleEdit = this.handleEdit.bind(this);
 
 	}
 
@@ -54,95 +37,107 @@ class CentralConfigApp extends Component {
 	}
 
 	render() {
+		if(this.state.configItems.length == 0){
+			return null;
+		}
 
+		var {dataList} = this.state.configItems;
 
 		//	Return the app HTML to render		
 		return (
 			<div>
-
-
-				<DataGrid
-		          idProperty='id'
-		          dataSource={this.state.configItems}
-		          columns={this.state.columns}
-		          emptyText={'No config items'}
-		          onColumnResize={this.onColumnResize}
-		          onColumnVisibilityChange={this.onColumnVisibilityChange}
-		          onColumnOrderChange={this.onColumnOrderChange}
-		          selected={this.state.SELECTED_ID}
-		          onSelectionChange={this.onSelectionChange}
-		          onFilter={this.handleFilter}
-		          liveFilter={true} //to apply the filter while typing
-		          rowStyle={this.handleRowStyle}
-		          style={{height: 500}} />
-				</div>
+				<Table
+			        rowsCount={this.state.configItems.length}
+			        rowHeight={40}
+			        headerHeight={40}
+			        width={1000}
+			        height={500}
+			        {...this.props}>
+			        <Column
+			          header={<Cell>Id</Cell>}
+			          cell={props => (
+			            <Cell {...props}>
+			              {this.state.configItems[props.rowIndex].id}
+			            </Cell>
+			          )}
+			          fixed={true}
+			          width={50}
+			        />
+			        <Column
+			          header={<Cell>Application</Cell>}
+			          cell={props => (
+			            <Cell {...props}>
+			              {this.state.configItems[props.rowIndex].application}
+			            </Cell>
+			          )}
+			          fixed={true}
+			          width={200}
+			        />
+			        <Column
+			          header={<Cell>Name</Cell>}
+			          cell={props => (
+			            <Cell {...props}>
+			              {this.state.configItems[props.rowIndex].name}
+			            </Cell>
+			          )}
+			          fixed={true}
+			          width={200}
+			        />
+			        <Column
+			          header={<Cell>Value</Cell>}
+			          cell={props => (
+			            <Cell {...props}>
+			              {this.state.configItems[props.rowIndex].value}
+			            </Cell>
+			          )}
+			          flexGrow={2}
+			          width={200}
+			        />
+			        <Column
+			          header={<Cell>Machine</Cell>}
+			          cell={props => (
+			            <Cell {...props}>
+			              {this.state.configItems[props.rowIndex].machine}
+			            </Cell>
+			          )}
+			          flexGrow={1}
+			          width={200}
+			        />
+			        <Column
+			          header={<Cell>Last updated</Cell>}
+			          cell={props => (
+			            <Cell {...props}>
+			            	{moment(this.state.configItems[props.rowIndex].updated).format('MMM-D h:mm a')}
+			            </Cell>
+			          )}
+			          flexGrow={1}
+			          width={200}
+			        />
+			        <Column
+			          header={<Cell>Actions</Cell>}
+			          cell={props => (
+			            <Cell {...props}>
+			              <button>Edit</button>
+			            </Cell>
+			          )}
+			          width={200}
+			        />
+			      </Table>
+			</div>
 			);
 	}
-
-	onColumnResize(firstCol, firstSize, secondCol, secondSize){
-		firstCol.width = firstSize
-		this.setState({})
-  	}
-
-  	onColumnOrderChange(index, dropIndex){
-	    let cols = this.state.columns;
-	    let col = cols[index];
-	    cols.splice(index, 1); //delete from index, 1 item
-	    cols.splice(dropIndex, 0, col);
-	    this.setState({columns: cols});
-  	}
-
-  	onSelectionChange(newSelectedId, data){
-	    this.setState({
-	      selectedItem: data,
-	      SELECTED_ID: newSelectedId
-	    })
-  	}
-
-  	handleFilter(column, value, allFilterValues){
-	    //  reset data to original data-array
-	    let filteredData = ConfigStore.getConfigItems();
-
-	    //  go over all filters and apply them
-	    Object.keys(allFilterValues).forEach(function(name){        
-	    	var columnFilter = (allFilterValues[name] + '').toUpperCase()
-
-	    	if (columnFilter == ''){
-	    		return
-	    	}
-
-	    	filteredData = filteredData.filter(function(item){
-	    		if ((item[name] + '').toUpperCase().indexOf(columnFilter) >= 0){
-	    			return true
-	    		}
-	    	})
-	    })
-
-	    this.setState({
-	      configItems: filteredData
-	    });
-  	}
-
-  	onColumnVisibilityChange(col, visible) {
-	    col.visible = visible
-	    this.setState({})
-  	}
-
-  	handleRowStyle(data, props){
-	    var style = {}
-
-	    //	Color global items differently
-	    if (data.application == '*'){
-	      style.color = '#31708f';
-	    }
-
-	    return style
-  	}
 
 	_onChange() {
     	this.setState({
 	      configItems: ConfigStore.getConfigItems()
 	    });
+  	}
+
+  	handleEdit(e) {
+  		console.log("In edit")
+  		e.preventDefault();
+  		console.log("Default prevented")
+  		alert("C'mon son.  It's time to edit");
   	}
 
 }
