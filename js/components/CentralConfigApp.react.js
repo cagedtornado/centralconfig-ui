@@ -118,11 +118,11 @@ class CentralConfigApp extends Component {
 			          header={<Cell>Actions</Cell>}
 			          cell={props => (
 			            <Cell {...props}>
-			              <button>Edit</button>
+			              <button onClick={()=>this.handleEdit(this.state.configItems[props.rowIndex])}>Edit</button>&nbsp;
+			              <button onClick={()=>this.handleRemove(this.state.configItems[props.rowIndex])}>Remove</button>
 			            </Cell>
 			          )}
-			          flexGrow={1}
-			          width={100}
+			          width={150}
 			        />
 			      </Table>
 			</div>
@@ -136,10 +136,13 @@ class CentralConfigApp extends Component {
   	}
 
   	handleEdit(e) {
-  		console.log("In edit")
-  		e.preventDefault();
-  		console.log("Default prevented")
-  		alert("C'mon son.  It's time to edit");
+  		console.log("Edit");
+  		console.log(e);
+  	}
+
+  	handleRemove(e) {
+  		console.log("Remove");
+  		console.log(e);
   	}
 
 }

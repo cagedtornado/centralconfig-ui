@@ -280,10 +280,13 @@ var CentralConfigApp = (function (_Component) {
 			}), React.createElement(Column, {
 				header: React.createElement(Cell, null, 'Actions'),
 				cell: function cell(props) {
-					return React.createElement(Cell, props, React.createElement('button', null, 'Edit'));
+					return React.createElement(Cell, props, React.createElement('button', { onClick: function onClick() {
+							return _this.handleEdit(_this.state.configItems[props.rowIndex]);
+						} }, 'Edit'), ' ', React.createElement('button', { onClick: function onClick() {
+							return _this.handleRemove(_this.state.configItems[props.rowIndex]);
+						} }, 'Remove'));
 				},
-				flexGrow: 1,
-				width: 100
+				width: 150
 			})));
 		}
 	}, {
@@ -296,10 +299,14 @@ var CentralConfigApp = (function (_Component) {
 	}, {
 		key: 'handleEdit',
 		value: function handleEdit(e) {
-			console.log("In edit");
-			e.preventDefault();
-			console.log("Default prevented");
-			alert("C'mon son.  It's time to edit");
+			console.log("Edit");
+			console.log(e);
+		}
+	}, {
+		key: 'handleRemove',
+		value: function handleRemove(e) {
+			console.log("Remove");
+			console.log(e);
 		}
 	}]);
 
