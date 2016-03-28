@@ -1,6 +1,7 @@
 import {Component} from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
+import Dimensions from 'react-dimensions'
 
 //  Grid component
 import FixedDataTable from 'fixed-data-table';
@@ -50,7 +51,7 @@ class CentralConfigApp extends Component {
 			        rowsCount={this.state.configItems.length}
 			        rowHeight={40}
 			        headerHeight={40}
-			        width={1000}
+			        width={this.props.containerWidth}
 			        height={500}
 			        {...this.props}>
 			        <Column
@@ -71,7 +72,7 @@ class CentralConfigApp extends Component {
 			            </Cell>
 			          )}
 			          fixed={true}
-			          width={200}
+			          width={175}
 			        />
 			        <Column
 			          header={<Cell>Name</Cell>}
@@ -81,7 +82,7 @@ class CentralConfigApp extends Component {
 			            </Cell>
 			          )}
 			          fixed={true}
-			          width={200}
+			          width={175}
 			        />
 			        <Column
 			          header={<Cell>Value</Cell>}
@@ -120,7 +121,8 @@ class CentralConfigApp extends Component {
 			              <button>Edit</button>
 			            </Cell>
 			          )}
-			          width={200}
+			          flexGrow={1}
+			          width={100}
 			        />
 			      </Table>
 			</div>
@@ -142,4 +144,4 @@ class CentralConfigApp extends Component {
 
 }
 
-export default CentralConfigApp;
+export default Dimensions()(CentralConfigApp) // Enhanced component
