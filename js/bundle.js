@@ -229,20 +229,13 @@ var CentralConfigApp = (function (_Component) {
 			var dataList = this.state.configItems.dataList;
 
 			//	Return the app HTML to render		
-			return React.createElement('div', null, React.createElement(Table, _extends({
+			return React.createElement('div', null, React.createElement('h3', null, 'Welcome to CentralConfig'), React.createElement('p', null, 'Manage your application configuration from a central place. See configuration for a specific application by selecting it from the menu.'), React.createElement('p', null, React.createElement('button', null, 'Add config item')), React.createElement('div', null, React.createElement(Table, _extends({
 				rowsCount: this.state.configItems.length,
 				rowHeight: 40,
 				headerHeight: 40,
 				width: this.props.containerWidth,
 				height: 500
 			}, this.props), React.createElement(Column, {
-				header: React.createElement(Cell, null, 'Id'),
-				cell: function cell(props) {
-					return React.createElement(Cell, props, _this.state.configItems[props.rowIndex].id);
-				},
-				fixed: true,
-				width: 50
-			}), React.createElement(Column, {
 				header: React.createElement(Cell, null, 'Application'),
 				cell: function cell(props) {
 					return React.createElement(Cell, props, _this.state.configItems[props.rowIndex].application);
@@ -287,7 +280,7 @@ var CentralConfigApp = (function (_Component) {
 						} }, 'Remove'));
 				},
 				width: 150
-			})));
+			}))));
 		}
 	}, {
 		key: '_onChange',

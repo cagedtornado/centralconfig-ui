@@ -47,23 +47,23 @@ class CentralConfigApp extends Component {
 		//	Return the app HTML to render		
 		return (
 			<div>
-				<Table
+				<h3>Welcome to CentralConfig</h3>
+				<p>
+					Manage your application configuration from a central place.  
+					See configuration for a specific application by selecting it from the menu.
+				</p>
+				<p>
+					<button>Add config item</button>
+				</p>
+				
+				<div>
+					<Table
 			        rowsCount={this.state.configItems.length}
 			        rowHeight={40}
 			        headerHeight={40}
 			        width={this.props.containerWidth}
 			        height={500}
 			        {...this.props}>
-			        <Column
-			          header={<Cell>Id</Cell>}
-			          cell={props => (
-			            <Cell {...props}>
-			              {this.state.configItems[props.rowIndex].id}
-			            </Cell>
-			          )}
-			          fixed={true}
-			          width={50}
-			        />
 			        <Column
 			          header={<Cell>Application</Cell>}
 			          cell={props => (
@@ -125,6 +125,7 @@ class CentralConfigApp extends Component {
 			          width={150}
 			        />
 			      </Table>
+				</div>
 			</div>
 			);
 	}
