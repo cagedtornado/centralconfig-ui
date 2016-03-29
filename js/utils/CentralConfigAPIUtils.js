@@ -19,7 +19,7 @@ class CentralConfigAPIUtils {
         console.time("Fetched config data");
         nprogress.start();
 
-        $.ajax( url )
+        return $.ajax( url )
         .done(function(data) {
             //  Call the action to receive the data:
             ConfigActions.recieveConfigData(data.data);
@@ -33,6 +33,58 @@ class CentralConfigAPIUtils {
             nprogress.done();
         });
 	}
+
+    //  Removes a configuration item
+    removeConfigItem(configItem){
+
+        //  Format the url
+        let url = `/config/remove`;
+
+        console.log("Removing config: %O", configItem)
+        console.time("Removed config data");
+
+        return $.ajax( {
+          type: "POST",
+          url: url,
+          data: configItem} 
+        )
+        .done(function(data) {
+            //  We might not need to sink this - let the caller just do a 'then' on the returned promise
+        }.bind(this))
+        .fail(function() {
+            //  Something bad happened
+            console.log("There was a problem removing config item");
+        })
+        .always(function(){
+            console.timeEnd("Removed config data");
+        });
+    }
+
+    //  Creates/updates a configuration item
+    setConfigItem(configItem){
+
+        //  Format the url
+        let url = `/config/set`;
+
+        console.log("Setting config: %O", configItem)
+        console.time("Set config data");
+
+        return $.ajax( {
+          type: "POST",
+          url: url,
+          data: configItem} 
+        )
+        .done(function(data) {
+            //  We might not need to sink this - let the caller just do a 'then' on the returned promise
+        }.bind(this))
+        .fail(function() {
+            //  Something bad happened
+            console.log("There was a problem setting config item");
+        })
+        .always(function(){
+            console.timeEnd("Set config data");
+        });
+    }
 }
 
 export default new CentralConfigAPIUtils();

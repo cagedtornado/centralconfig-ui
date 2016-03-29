@@ -207,8 +207,8 @@ var CentralConfigApp = (function (_Component) {
 		//  Bind our events:
 		this._onChange = this._onChange.bind(this);
 		this.handleEdit = this.handleEdit.bind(this);
-		this.handleOpenModal = this.handleOpenModal.bind(this);
-		this.closeModal = this.closeModal.bind(this);
+		this.showNewConfigItem = this.showNewConfigItem.bind(this);
+		this.hideNewConfigItem = this.hideNewConfigItem.bind(this);
 	}
 
 	_createClass(CentralConfigApp, [{
@@ -241,7 +241,7 @@ var CentralConfigApp = (function (_Component) {
 			var dataList = this.state.configItems.dataList;
 
 			//	Return the app HTML to render		
-			return React.createElement('div', null, React.createElement('h3', null, 'Welcome to CentralConfig'), React.createElement('p', null, 'Manage your application configuration from a central place. See configuration for a specific application by selecting it from the menu.'), React.createElement('p', null, React.createElement('button', { type: 'button', onClick: this.handleOpenModal }, 'Add config item')), React.createElement('div', null, React.createElement(Table, _extends({
+			return React.createElement('div', null, React.createElement('h3', null, 'Welcome to CentralConfig'), React.createElement('p', null, 'Manage your application configuration from a central place. See configuration for a specific application by selecting it from the menu.'), React.createElement('p', null, React.createElement('button', { type: 'button', onClick: this.showNewConfigItem }, 'Add config item')), React.createElement('div', null, React.createElement(Table, _extends({
 				rowsCount: this.state.configItems.length,
 				rowHeight: 40,
 				headerHeight: 40,
@@ -294,9 +294,9 @@ var CentralConfigApp = (function (_Component) {
 				width: 150
 			}))), React.createElement(_reactBootstrapModal2['default'], {
 				show: this.state.open,
-				onHide: this.closeModal,
+				onHide: this.hideNewConfigItem,
 				'aria-labelledby': 'ModalHeader'
-			}, React.createElement(_reactBootstrapModal2['default'].Header, { closeButton: true }, React.createElement(_reactBootstrapModal2['default'].Title, { id: 'ModalHeader' }, 'Add a new config item')), React.createElement(_reactBootstrapModal2['default'].Body, null, React.createElement('p', null, 'Some Content here')), React.createElement(_reactBootstrapModal2['default'].Footer, null, React.createElement(_reactBootstrapModal2['default'].Dismiss, { className: 'btn btn-default' }, 'Cancel'), React.createElement('button', { className: 'btn btn-primary', onClick: saveAndClose }, 'Save'))));
+			}, React.createElement(_reactBootstrapModal2['default'].Header, { closeButton: true }, React.createElement(_reactBootstrapModal2['default'].Title, { id: 'ModalHeader' }, 'Add a new config item')), React.createElement(_reactBootstrapModal2['default'].Body, null, React.createElement('p', null, 'Form fields to add a new config item')), React.createElement(_reactBootstrapModal2['default'].Footer, null, React.createElement(_reactBootstrapModal2['default'].Dismiss, { className: 'btn btn-default' }, 'Cancel'), React.createElement('button', { className: 'btn btn-primary', onClick: saveAndClose }, 'Save'))));
 		}
 	}, {
 		key: '_onChange',
@@ -306,15 +306,15 @@ var CentralConfigApp = (function (_Component) {
 			});
 		}
 	}, {
-		key: 'handleOpenModal',
-		value: function handleOpenModal(e) {
+		key: 'showNewConfigItem',
+		value: function showNewConfigItem(e) {
 			this.setState({
 				open: true
 			});
 		}
 	}, {
-		key: 'closeModal',
-		value: function closeModal(e) {
+		key: 'hideNewConfigItem',
+		value: function hideNewConfigItem(e) {
 			this.setState({
 				open: false
 			});
@@ -473,27 +473,27 @@ module.exports = new ConfigStore(_dispatcherAppDispatcher2['default']);
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-  value: true
+    value: true
 });
 
 var _createClass = (function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ('value' in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-  };
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ('value' in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
 })();
 
 function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { 'default': obj };
+    return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
 function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError('Cannot call a class as a function');
-  }
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError('Cannot call a class as a function');
+    }
 }
 
 var _nprogress = require('nprogress');
@@ -507,36 +507,84 @@ var _actionsConfigActions = require('../actions/ConfigActions');
 var _actionsConfigActions2 = _interopRequireDefault(_actionsConfigActions);
 
 var CentralConfigAPIUtils = (function () {
-  function CentralConfigAPIUtils() {
-    _classCallCheck(this, CentralConfigAPIUtils);
-  }
-
-  //	Gets all configuration items from the server
-
-  _createClass(CentralConfigAPIUtils, [{
-    key: 'getAllConfigItems',
-    value: function getAllConfigItems() {
-
-      //  Format the url
-      var url = '/config/getall';
-
-      console.time("Fetched config data");
-      _nprogress2['default'].start();
-
-      $.ajax(url).done((function (data) {
-        //  Call the action to receive the data:
-        _actionsConfigActions2['default'].recieveConfigData(data.data);
-      }).bind(this)).fail(function () {
-        //  Something bad happened
-        console.log("There was a problem getting config items");
-      }).always(function () {
-        console.timeEnd("Fetched config data");
-        _nprogress2['default'].done();
-      });
+    function CentralConfigAPIUtils() {
+        _classCallCheck(this, CentralConfigAPIUtils);
     }
-  }]);
 
-  return CentralConfigAPIUtils;
+    //	Gets all configuration items from the server
+
+    _createClass(CentralConfigAPIUtils, [{
+        key: 'getAllConfigItems',
+        value: function getAllConfigItems() {
+
+            //  Format the url
+            var url = '/config/getall';
+
+            console.time("Fetched config data");
+            _nprogress2['default'].start();
+
+            return $.ajax(url).done((function (data) {
+                //  Call the action to receive the data:
+                _actionsConfigActions2['default'].recieveConfigData(data.data);
+            }).bind(this)).fail(function () {
+                //  Something bad happened
+                console.log("There was a problem getting config items");
+            }).always(function () {
+                console.timeEnd("Fetched config data");
+                _nprogress2['default'].done();
+            });
+        }
+
+        //  Removes a configuration item
+    }, {
+        key: 'removeConfigItem',
+        value: function removeConfigItem(configItem) {
+
+            //  Format the url
+            var url = '/config/remove';
+
+            console.log("Removing config: %O", configItem);
+            console.time("Removed config data");
+
+            return $.ajax({
+                type: "POST",
+                url: url,
+                data: configItem }).done((function (data) {
+                //  We might not need to sink this - let the caller just do a 'then' on the returned promise
+            }).bind(this)).fail(function () {
+                //  Something bad happened
+                console.log("There was a problem removing config item");
+            }).always(function () {
+                console.timeEnd("Removed config data");
+            });
+        }
+
+        //  Creates/updates a configuration item
+    }, {
+        key: 'setConfigItem',
+        value: function setConfigItem(configItem) {
+
+            //  Format the url
+            var url = '/config/set';
+
+            console.log("Setting config: %O", configItem);
+            console.time("Set config data");
+
+            return $.ajax({
+                type: "POST",
+                url: url,
+                data: configItem }).done((function (data) {
+                //  We might not need to sink this - let the caller just do a 'then' on the returned promise
+            }).bind(this)).fail(function () {
+                //  Something bad happened
+                console.log("There was a problem setting config item");
+            }).always(function () {
+                console.timeEnd("Set config data");
+            });
+        }
+    }]);
+
+    return CentralConfigAPIUtils;
 })();
 
 exports['default'] = new CentralConfigAPIUtils();

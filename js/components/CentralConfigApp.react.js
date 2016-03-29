@@ -25,8 +25,8 @@ class CentralConfigApp extends Component {
 	    //  Bind our events: 
     	this._onChange = this._onChange.bind(this);
     	this.handleEdit = this.handleEdit.bind(this);
-    	this.handleOpenModal = this.handleOpenModal.bind(this);
-    	this.closeModal = this.closeModal.bind(this);
+    	this.showNewConfigItem = this.showNewConfigItem.bind(this);
+    	this.hideNewConfigItem = this.hideNewConfigItem.bind(this);
 	}
 
 	componentDidMount() {
@@ -61,7 +61,7 @@ class CentralConfigApp extends Component {
 					See configuration for a specific application by selecting it from the menu.
 				</p>
 				<p>
-					<button type="button" onClick={this.handleOpenModal}>Add config item</button>
+					<button type="button" onClick={this.showNewConfigItem}>Add config item</button>
 				</p>
 				
 				<div>
@@ -137,14 +137,14 @@ class CentralConfigApp extends Component {
 
 				<Modal 
 		          show={this.state.open} 
-		          onHide={this.closeModal}
+		          onHide={this.hideNewConfigItem}
 		          aria-labelledby="ModalHeader"
 		        >
 		          <Modal.Header closeButton>
 		            <Modal.Title id='ModalHeader'>Add a new config item</Modal.Title>
 		          </Modal.Header>
 		          <Modal.Body>
-		            <p>Some Content here</p>
+		            <p>Form fields to add a new config item</p>
 		          </Modal.Body>
 		          <Modal.Footer>
 		            <Modal.Dismiss className='btn btn-default'>Cancel</Modal.Dismiss>
@@ -163,13 +163,13 @@ class CentralConfigApp extends Component {
 	    });
   	}
 
-  	handleOpenModal(e) {
+  	showNewConfigItem(e) {
   		this.setState({
 	      open: true
 	    });
   	}
 
-  	closeModal(e) {
+  	hideNewConfigItem(e) {
   		this.setState({
 	      open: false
 	    });
