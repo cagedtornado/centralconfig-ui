@@ -2,6 +2,7 @@ import {Component} from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 import Dimensions from 'react-dimensions'
+import Modal from 'react-bootstrap-modal'
 
 //  Grid component
 import FixedDataTable from 'fixed-data-table';
@@ -24,7 +25,8 @@ class CentralConfigApp extends Component {
 	    //  Bind our events: 
     	this._onChange = this._onChange.bind(this);
     	this.handleEdit = this.handleEdit.bind(this);
-
+    	this.handleOpenModal = this.handleOpenModal.bind(this);
+    	this.closeModal = this.closeModal.bind(this);
 	}
 
 	componentDidMount() {
@@ -38,6 +40,12 @@ class CentralConfigApp extends Component {
 	}
 
 	render() {
+ 
+	    let saveAndClose = () => {
+	      api.saveData()
+	        .then(() => this.setState({ open: false }))
+	    }
+
 		if(this.state.configItems.length == 0){
 			return null;
 		}
@@ -53,7 +61,7 @@ class CentralConfigApp extends Component {
 					See configuration for a specific application by selecting it from the menu.
 				</p>
 				<p>
-					<button>Add config item</button>
+					<button type="button" onClick={this.handleOpenModal}>Add config item</button>
 				</p>
 				
 				<div>
@@ -126,6 +134,25 @@ class CentralConfigApp extends Component {
 			        />
 			      </Table>
 				</div>
+
+				<Modal 
+		          show={this.state.open} 
+		          onHide={this.closeModal}
+		          aria-labelledby="ModalHeader"
+		        >
+		          <Modal.Header closeButton>
+		            <Modal.Title id='ModalHeader'>Add a new config item</Modal.Title>
+		          </Modal.Header>
+		          <Modal.Body>
+		            <p>Some Content here</p>
+		          </Modal.Body>
+		          <Modal.Footer>
+		            <Modal.Dismiss className='btn btn-default'>Cancel</Modal.Dismiss>
+		            <button className='btn btn-primary' onClick={saveAndClose}>
+		              Save
+		            </button>
+		          </Modal.Footer>
+		        </Modal>
 			</div>
 			);
 	}
@@ -133,6 +160,18 @@ class CentralConfigApp extends Component {
 	_onChange() {
     	this.setState({
 	      configItems: ConfigStore.getConfigItems()
+	    });
+  	}
+
+  	handleOpenModal(e) {
+  		this.setState({
+	      open: true
+	    });
+  	}
+
+  	closeModal(e) {
+  		this.setState({
+	      open: false
 	    });
   	}
 
