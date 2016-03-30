@@ -181,6 +181,12 @@ var _fixedDataTable = require('fixed-data-table');
 
 var _fixedDataTable2 = _interopRequireDefault(_fixedDataTable);
 
+//	The API utils
+
+var _utilsCentralConfigAPIUtils = require('../utils/CentralConfigAPIUtils');
+
+var _utilsCentralConfigAPIUtils2 = _interopRequireDefault(_utilsCentralConfigAPIUtils);
+
 //	The stores
 
 var _storesConfigStore = require('../stores/ConfigStore');
@@ -325,11 +331,14 @@ var CentralConfigApp = (function (_Component) {
 			console.log("Edit");
 			console.log(e);
 		}
+
+		//	Remove the item:
 	}, {
 		key: 'handleRemove',
-		value: function handleRemove(e) {
-			console.log("Remove");
-			console.log(e);
+		value: function handleRemove(configItem) {
+
+			//	Remove the item, then refresh the data:
+			_utilsCentralConfigAPIUtils2['default'].removeConfigItem(configItem).then(_utilsCentralConfigAPIUtils2['default'].getAllConfigItems);
 		}
 	}]);
 
@@ -340,7 +349,7 @@ exports['default'] = (0, _reactDimensions2['default'])()(CentralConfigApp);
 // Enhanced component
 module.exports = exports['default'];
 
-},{"../stores/ConfigStore":6,"fixed-data-table":57,"moment":79,"react":285,"react-bootstrap-modal":86,"react-dimensions":128,"react-dom":129}],4:[function(require,module,exports){
+},{"../stores/ConfigStore":6,"../utils/CentralConfigAPIUtils":7,"fixed-data-table":57,"moment":79,"react":285,"react-bootstrap-modal":86,"react-dimensions":128,"react-dom":129}],4:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) {
@@ -544,18 +553,18 @@ var CentralConfigAPIUtils = (function () {
             var url = '/config/remove';
 
             console.log("Removing config: %O", configItem);
-            console.time("Removed config data");
+            console.time("Called remove");
 
             return $.ajax({
                 type: "POST",
                 url: url,
-                data: configItem }).done((function (data) {
+                data: JSON.stringify(configItem) }).done((function (data) {
                 //  We might not need to sink this - let the caller just do a 'then' on the returned promise
-            }).bind(this)).fail(function () {
+            }).bind(this)).fail(function (xhr, error, ex) {
                 //  Something bad happened
-                console.log("There was a problem removing config item");
+                console.log("There was a problem removing config item: %O", xhr);
             }).always(function () {
-                console.timeEnd("Removed config data");
+                console.timeEnd("Called remove");
             });
         }
 
@@ -575,9 +584,9 @@ var CentralConfigAPIUtils = (function () {
                 url: url,
                 data: configItem }).done((function (data) {
                 //  We might not need to sink this - let the caller just do a 'then' on the returned promise
-            }).bind(this)).fail(function () {
+            }).bind(this)).fail(function (xhr, error, ex) {
                 //  Something bad happened
-                console.log("There was a problem setting config item");
+                console.log("There was a problem setting config item: %O", xhr);
             }).always(function () {
                 console.timeEnd("Set config data");
             });

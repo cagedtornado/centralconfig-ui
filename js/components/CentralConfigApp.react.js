@@ -8,6 +8,9 @@ import Modal from 'react-bootstrap-modal'
 import FixedDataTable from 'fixed-data-table';
 const {Table, Column, Cell} = FixedDataTable;
 
+//	The API utils
+import CentralConfigAPIUtils from '../utils/CentralConfigAPIUtils';
+
 //	The stores
 import ConfigStore from '../stores/ConfigStore';
 
@@ -180,9 +183,11 @@ class CentralConfigApp extends Component {
   		console.log(e);
   	}
 
-  	handleRemove(e) {
-  		console.log("Remove");
-  		console.log(e);
+  	//	Remove the item:
+  	handleRemove(configItem) {
+  		
+  		//	Remove the item, then refresh the data:
+	    CentralConfigAPIUtils.removeConfigItem(configItem).then(CentralConfigAPIUtils.getAllConfigItems);
   	}
 
 }

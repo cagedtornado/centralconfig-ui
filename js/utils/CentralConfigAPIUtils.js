@@ -41,22 +41,22 @@ class CentralConfigAPIUtils {
         let url = `/config/remove`;
 
         console.log("Removing config: %O", configItem)
-        console.time("Removed config data");
+        console.time("Called remove");
 
         return $.ajax( {
           type: "POST",
           url: url,
-          data: configItem} 
+          data: JSON.stringify(configItem)} 
         )
         .done(function(data) {
             //  We might not need to sink this - let the caller just do a 'then' on the returned promise
         }.bind(this))
-        .fail(function() {
+        .fail(function(xhr, error, ex) {
             //  Something bad happened
-            console.log("There was a problem removing config item");
+            console.log("There was a problem removing config item: %O", xhr);
         })
         .always(function(){
-            console.timeEnd("Removed config data");
+            console.timeEnd("Called remove");
         });
     }
 
@@ -77,9 +77,9 @@ class CentralConfigAPIUtils {
         .done(function(data) {
             //  We might not need to sink this - let the caller just do a 'then' on the returned promise
         }.bind(this))
-        .fail(function() {
+        .fail(function(xhr, error, ex) {
             //  Something bad happened
-            console.log("There was a problem setting config item");
+            console.log("There was a problem setting config item: %O", xhr);
         })
         .always(function(){
             console.timeEnd("Set config data");
