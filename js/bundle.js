@@ -302,7 +302,7 @@ var CentralConfigApp = (function (_Component) {
 				show: this.state.open,
 				onHide: this.hideNewConfigItem,
 				'aria-labelledby': 'ModalHeader'
-			}, React.createElement(_reactBootstrapModal2['default'].Header, { closeButton: true }, React.createElement(_reactBootstrapModal2['default'].Title, { id: 'ModalHeader' }, 'Add a new config item')), React.createElement(_reactBootstrapModal2['default'].Body, null, React.createElement('p', null, 'Form fields to add a new config item')), React.createElement(_reactBootstrapModal2['default'].Footer, null, React.createElement(_reactBootstrapModal2['default'].Dismiss, { className: 'btn btn-default' }, 'Cancel'), React.createElement('button', { className: 'btn btn-primary', onClick: saveAndClose }, 'Save'))));
+			}, React.createElement(_reactBootstrapModal2['default'].Header, { closeButton: true }, React.createElement(_reactBootstrapModal2['default'].Title, { id: 'ModalHeader' }, 'Add a new config item')), React.createElement(_reactBootstrapModal2['default'].Body, null, React.createElement('div', { className: 'form-group' }, React.createElement('label', { htmlFor: 'txtNewAppName' }, 'Application'), React.createElement('input', { className: 'form-control', id: 'txtNewAppName', placeholder: 'Your application name', autoFocus: true })), React.createElement('div', { className: 'form-group' }, React.createElement('label', { htmlFor: 'txtNewName' }, 'Name'), React.createElement('input', { className: 'form-control', id: 'txtNewName', placeholder: 'Config item name' })), React.createElement('div', { className: 'form-group' }, React.createElement('label', { htmlFor: 'txtNewValue' }, 'Value'), React.createElement('input', { className: 'form-control', id: 'txtNewValue', placeholder: 'Config value' })), React.createElement('div', { className: 'form-group' }, React.createElement('label', { htmlFor: 'txtNewMachine' }, 'Machine'), React.createElement('input', { className: 'form-control', id: 'txtNewMachine', placeholder: 'Optional machine name' }))), React.createElement(_reactBootstrapModal2['default'].Footer, null, React.createElement(_reactBootstrapModal2['default'].Dismiss, { className: 'btn btn-default' }, 'Cancel'), React.createElement('button', { className: 'btn btn-primary', onClick: saveAndClose }, 'Save'))));
 		}
 	}, {
 		key: '_onChange',
@@ -336,7 +336,6 @@ var CentralConfigApp = (function (_Component) {
 	}, {
 		key: 'handleRemove',
 		value: function handleRemove(configItem) {
-
 			//	Remove the item, then refresh the data:
 			_utilsCentralConfigAPIUtils2['default'].removeConfigItem(configItem).then(_utilsCentralConfigAPIUtils2['default'].getAllConfigItems);
 		}

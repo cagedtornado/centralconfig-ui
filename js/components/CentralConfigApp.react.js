@@ -147,7 +147,22 @@ class CentralConfigApp extends Component {
 		            <Modal.Title id='ModalHeader'>Add a new config item</Modal.Title>
 		          </Modal.Header>
 		          <Modal.Body>
-		            <p>Form fields to add a new config item</p>
+					  <div className="form-group">
+					    <label htmlFor="txtNewAppName">Application</label>
+					    <input className="form-control" id="txtNewAppName" placeholder="Your application name" autoFocus/>
+					  </div>
+					  <div className="form-group">
+					    <label htmlFor="txtNewName">Name</label>
+					    <input className="form-control" id="txtNewName" placeholder="Config item name"/>
+					  </div>
+					  <div className="form-group">
+					    <label htmlFor="txtNewValue">Value</label>
+					    <input className="form-control" id="txtNewValue" placeholder="Config value"/>
+					  </div>
+					  <div className="form-group">
+					    <label htmlFor="txtNewMachine">Machine</label>
+					    <input className="form-control" id="txtNewMachine" placeholder="Optional machine name"/>
+					  </div>
 		          </Modal.Body>
 		          <Modal.Footer>
 		            <Modal.Dismiss className='btn btn-default'>Cancel</Modal.Dismiss>
@@ -185,7 +200,6 @@ class CentralConfigApp extends Component {
 
   	//	Remove the item:
   	handleRemove(configItem) {
-  		
   		//	Remove the item, then refresh the data:
 	    CentralConfigAPIUtils.removeConfigItem(configItem).then(CentralConfigAPIUtils.getAllConfigItems);
   	}
