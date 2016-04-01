@@ -7,7 +7,7 @@ window.React = React; // export for http://fb.me/react-devtools
 import CentralConfigAPIUtils from './utils/CentralConfigAPIUtils';
 
 //	The app component
-import CentralConfigApp from './components/CentralConfigApp.react';
+import MainApp from './components/MainApp.react';
 
 //	Application element
 var appElement = document.getElementById("centralconfigapp");
@@ -16,4 +16,4 @@ var appElement = document.getElementById("centralconfigapp");
 CentralConfigAPIUtils.getAllConfigItems();
 
 //	Start the app
-ReactDOM.render(<CentralConfigApp />, appElement);
+ReactDOM.render(<MainApp />, appElement);

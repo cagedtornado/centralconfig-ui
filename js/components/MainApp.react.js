@@ -4,6 +4,9 @@ import moment from 'moment';
 import Dimensions from 'react-dimensions'
 import Modal from 'react-bootstrap-modal'
 
+//	Modals
+import AddItemModal from './AddItemModal.react'
+
 //  Grid component
 import FixedDataTable from 'fixed-data-table';
 const {Table, Column, Cell} = FixedDataTable;
@@ -14,7 +17,7 @@ import CentralConfigAPIUtils from '../utils/CentralConfigAPIUtils';
 //	The stores
 import ConfigStore from '../stores/ConfigStore';
 
-class CentralConfigApp extends Component {
+class MainApp extends Component {
 
 	constructor(props){
 
@@ -30,6 +33,7 @@ class CentralConfigApp extends Component {
     	this.handleEdit = this.handleEdit.bind(this);
     	this.showNewConfigItem = this.showNewConfigItem.bind(this);
     	this.hideNewConfigItem = this.hideNewConfigItem.bind(this);
+    	this.saveNewConfigItem = this.saveNewConfigItem.bind(this);
 	}
 
 	componentDidMount() {
@@ -44,11 +48,7 @@ class CentralConfigApp extends Component {
 
 	render() {
  
-	    let saveAndClose = () => {
-	      api.saveData()
-	        .then(() => this.setState({ open: false }))
-	    }
-
+ 		//	If we don't have config items, we shouldn't display the grid -- display a welcome message
 		if(this.state.configItems.length == 0){
 			return null;
 		}
@@ -138,39 +138,7 @@ class CentralConfigApp extends Component {
 			      </Table>
 				</div>
 
-				<Modal 
-		          show={this.state.open} 
-		          onHide={this.hideNewConfigItem}
-		          aria-labelledby="ModalHeader"
-		        >
-		          <Modal.Header closeButton>
-		            <Modal.Title id='ModalHeader'>Add a new config item</Modal.Title>
-		          </Modal.Header>
-		          <Modal.Body>
-					  <div className="form-group">
-					    <label htmlFor="txtNewAppName">Application</label>
-					    <input className="form-control" id="txtNewAppName" placeholder="Your application name" autoFocus/>
-					  </div>
-					  <div className="form-group">
-					    <label htmlFor="txtNewName">Name</label>
-					    <input className="form-control" id="txtNewName" placeholder="Config item name"/>
-					  </div>
-					  <div className="form-group">
-					    <label htmlFor="txtNewValue">Value</label>
-					    <input className="form-control" id="txtNewValue" placeholder="Config value"/>
-					  </div>
-					  <div className="form-group">
-					    <label htmlFor="txtNewMachine">Machine</label>
-					    <input className="form-control" id="txtNewMachine" placeholder="Optional machine name"/>
-					  </div>
-		          </Modal.Body>
-		          <Modal.Footer>
-		            <Modal.Dismiss className='btn btn-default'>Cancel</Modal.Dismiss>
-		            <button className='btn btn-primary' onClick={saveAndClose}>
-		              Save
-		            </button>
-		          </Modal.Footer>
-		        </Modal>
+				<AddItemModal show={this.state.open}  onHide={this.hideNewConfigItem} onSave={this.saveNewConfigItem} />
 			</div>
 			);
 	}
@@ -193,6 +161,21 @@ class CentralConfigApp extends Component {
 	    });
   	}
 
+  	saveNewConfigItem(e) {
+  		//	Save the item:
+  		console.log("Save the item");
+
+  		/*
+  		 api.saveData()
+	        .then(() => this.setState({ open: false }))
+		*/
+
+  		//	Close the dialog
+  		this.setState({
+	      open: false
+	    });
+  	}
+
   	handleEdit(e) {
   		console.log("Edit");
   		console.log(e);
@@ -206,4 +189,4 @@ class CentralConfigApp extends Component {
 
 }
 
-export default Dimensions()(CentralConfigApp) // Enhanced component
+export default Dimensions()(MainApp) // Enhanced component
