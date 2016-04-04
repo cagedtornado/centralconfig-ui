@@ -1,7 +1,3 @@
-dependencies:
-  pre:
-    - sudo apt-get update; sudo apt-get install p7zip
-
 deployment:
   release:
     branch: master
@@ -11,5 +7,5 @@ deployment:
     - cp css/*.css /tmp/css
     - cp js/bundle.js /tmp/js
     - cp index.html /tmp/index.html
-    - 7za a $CIRCLE_ARTIFACTS/centralconfig-ui.7za /tmp
+    - zip -r9 $CIRCLE_ARTIFACTS/centralconfig-ui.zip /tmp/
     - go get github.com/tcnksm/ghr
