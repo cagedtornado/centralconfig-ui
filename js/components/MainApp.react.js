@@ -33,7 +33,6 @@ class MainApp extends Component {
     	this.handleEdit = this.handleEdit.bind(this);
     	this.showNewConfigItem = this.showNewConfigItem.bind(this);
     	this.hideNewConfigItem = this.hideNewConfigItem.bind(this);
-    	this.saveNewConfigItem = this.saveNewConfigItem.bind(this);
 	}
 
 	componentDidMount() {
@@ -138,7 +137,7 @@ class MainApp extends Component {
 			      </Table>
 				</div>
 
-				<AddItemModal show={this.state.open}  onHide={this.hideNewConfigItem} onSave={this.saveNewConfigItem} />
+				<AddItemModal show={this.state.showNewItemDialog} hide={this.hideNewConfigItem} />
 			</div>
 			);
 	}
@@ -151,28 +150,13 @@ class MainApp extends Component {
 
   	showNewConfigItem(e) {
   		this.setState({
-	      open: true
+	      showNewItemDialog: true
 	    });
   	}
 
   	hideNewConfigItem(e) {
   		this.setState({
-	      open: false
-	    });
-  	}
-
-  	saveNewConfigItem(e) {
-  		//	Save the item:
-  		console.log("Save the item");
-
-  		/*
-  		 api.saveData()
-	        .then(() => this.setState({ open: false }))
-		*/
-
-  		//	Close the dialog
-  		this.setState({
-	      open: false
+	      showNewItemDialog: false
 	    });
   	}
 

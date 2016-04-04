@@ -72,7 +72,7 @@ class CentralConfigAPIUtils {
         return $.ajax( {
           type: "POST",
           url: url,
-          data: configItem} 
+          data: JSON.stringify(configItem)} 
         )
         .done(function(data) {
             //  We might not need to sink this - let the caller just do a 'then' on the returned promise

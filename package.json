@@ -22,10 +22,11 @@
     "moment-timezone": "^0.3.0",
     "nprogress": "^0.2.0",
     "object-assign": "^1.0.0",
-    "react": "^0.14.7",
+    "react": "^0.14.8",
     "react-bootstrap-modal": "^2.0.0",
     "react-dimensions": "^1.0.2",
-    "react-dom": "^0.14.7"
+    "react-dom": "^0.14.8",
+    "react-addons-update": "^0.14.8"
   },
   "devDependencies": {
     "babelify": "^6.3.0",
