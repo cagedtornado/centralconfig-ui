@@ -1,14 +1,15 @@
 dependencies:
   pre:
     - sudo apt-get update; sudo apt-get install p7zip
-    
+
 deployment:
   release:
     branch: master
     commands:
-    - mkdir $CIRCLE_ARTIFACTS/js
-    - mkdir $CIRCLE_ARTIFACTS/css
-    - cp css/*.css $CIRCLE_ARTIFACTS/css
-    - cp js/bundle.js $CIRCLE_ARTIFACTS/js
-    - cp index.html $CIRCLE_ARTIFACTS/index.html
+    - mkdir /tmp/js
+    - mkdir /tmp/css
+    - cp css/*.css /tmp/css
+    - cp js/bundle.js /tmp/js
+    - cp index.html /tmp/index.html
+    - 7za a $CIRCLE_ARTIFACTS/centralconfig-ui.7za /tmp
     - go get github.com/tcnksm/ghr
