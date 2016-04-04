@@ -2,10 +2,10 @@ deployment:
   release:
     branch: master
     commands:
-    - mkdir -p /tmp/centralconfig-ui/js
-    - mkdir -p /tmp/centralconfig-ui/css
-    - cp css/*.css /tmp/centralconfig-ui/css
-    - cp js/bundle.js /tmp/centralconfig-ui/js
-    - cp index.html /tmp/centralconfig-ui/index.html
-    - cd /tmp; zip -r9 $CIRCLE_ARTIFACTS/centralconfig-ui.zip centralconfig-ui
+    - mkdir -p /tmp/ui/js
+    - mkdir -p /tmp/ui/css
+    - cp css/*.css /tmp/ui/css
+    - cp js/bundle.js /tmp/ui/js
+    - cp index.html /tmp/ui/index.html
+    - cd /tmp; zip -r9 $CIRCLE_ARTIFACTS/centralconfig-ui.zip ui
     - go get github.com/tcnksm/ghr
