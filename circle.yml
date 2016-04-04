@@ -2,8 +2,8 @@ deployment:
   release:
     branch: master
     commands:
-    - mkdir /tmp/centralconfig-ui/js
-    - mkdir /tmp/centralconfig-ui/css
+    - mkdir -p /tmp/centralconfig-ui/js
+    - mkdir -p /tmp/centralconfig-ui/css
     - cp css/*.css /tmp/centralconfig-ui/css
     - cp js/bundle.js /tmp/centralconfig-ui/js
     - cp index.html /tmp/centralconfig-ui/index.html
