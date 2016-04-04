@@ -7,6 +7,5 @@ deployment:
     - cp css/*.css /tmp/centralconfig-ui/css
     - cp js/bundle.js /tmp/centralconfig-ui/js
     - cp index.html /tmp/centralconfig-ui/index.html
-    - cd /tmp
-    - zip -r9 $CIRCLE_ARTIFACTS/centralconfig-ui.zip centralconfig-ui
+    - cd /tmp; zip -r9 $CIRCLE_ARTIFACTS/centralconfig-ui.zip centralconfig-ui
     - go get github.com/tcnksm/ghr
