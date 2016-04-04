@@ -6,6 +6,7 @@ import Modal from 'react-bootstrap-modal'
 
 //	Modals
 import AddItemModal from './AddItemModal.react'
+import EditItemModal from './EditItemModal.react'
 
 //  Grid component
 import FixedDataTable from 'fixed-data-table';
@@ -25,14 +26,16 @@ class MainApp extends Component {
 
 		//  Set initial state:
 		this.state = {
-			configItems: []
+			configItems: [],
+			currentEditConfigItem: {}
 	    };
 
 	    //  Bind our events: 
     	this._onChange = this._onChange.bind(this);
-    	this.handleEdit = this.handleEdit.bind(this);
     	this.showNewConfigItem = this.showNewConfigItem.bind(this);
     	this.hideNewConfigItem = this.hideNewConfigItem.bind(this);
+    	this.showEditConfigItem = this.showEditConfigItem.bind(this);
+    	this.hideEditConfigItem = this.hideEditConfigItem.bind(this);
 	}
 
 	componentDidMount() {
@@ -72,7 +75,7 @@ class MainApp extends Component {
 			        rowHeight={40}
 			        headerHeight={40}
 			        width={this.props.containerWidth}
-			        height={500}
+			        height={400}
 			        {...this.props}>
 			        <Column
 			          header={<Cell>Application</Cell>}
@@ -128,7 +131,7 @@ class MainApp extends Component {
 			          header={<Cell>Actions</Cell>}
 			          cell={props => (
 			            <Cell {...props}>
-			              <button onClick={()=>this.handleEdit(this.state.configItems[props.rowIndex])}>Edit</button>&nbsp;
+			              <button onClick={()=>this.showEditConfigItem(this.state.configItems[props.rowIndex])}>Edit</button>&nbsp;
 			              <button onClick={()=>this.handleRemove(this.state.configItems[props.rowIndex])}>Remove</button>
 			            </Cell>
 			          )}
@@ -137,7 +140,8 @@ class MainApp extends Component {
 			      </Table>
 				</div>
 
-				<AddItemModal show={this.state.showNewItemDialog} hide={this.hideNewConfigItem} />
+				{this.state.showNewItemDialog ? <AddItemModal show={this.state.showNewItemDialog} hide={this.hideNewConfigItem} /> : null}
+				{this.state.showEditItemDialog ? <EditItemModal show={this.state.showEditItemDialog} hide={this.hideEditConfigItem} configItem={this.state.currentEditConfigItem} /> : null}
 			</div>
 			);
 	}
@@ -160,9 +164,18 @@ class MainApp extends Component {
 	    });
   	}
 
-  	handleEdit(e) {
-  		console.log("Edit");
-  		console.log(e);
+  	showEditConfigItem(configItem) {
+  		//	Set the current item to edit and show the modal:
+  		this.setState({
+	      showEditItemDialog: true,
+	      currentEditConfigItem: configItem
+	    });
+  	}
+
+  	hideEditConfigItem(e) {
+  		this.setState({
+	      showEditItemDialog: false
+	    });
   	}
 
   	//	Remove the item:
