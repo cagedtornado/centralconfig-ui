@@ -4,7 +4,7 @@ deployment:
     commands:
     - mkdir $CIRCLE_ARTIFACTS/js
     - mkdir $CIRCLE_ARTIFACTS/css
-    - copy css/*.css $CIRCLE_ARTIFACTS/css
-    - copy js/bundle.js $CIRCLE_ARTIFACTS/js
-    - copy index.html $CIRCLE_ARTIFACTS/index.html
+    - cp css/*.css $CIRCLE_ARTIFACTS/css
+    - cp js/bundle.js $CIRCLE_ARTIFACTS/js
+    - cp index.html $CIRCLE_ARTIFACTS/index.html
     - go get github.com/tcnksm/ghr
