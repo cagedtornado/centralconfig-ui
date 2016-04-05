@@ -7,7 +7,16 @@ body {
   margin-bottom: 20px;
 }
 
+/* Alert styles */
+.alert-info a{
+  color: #bddaed;
+}
 
+.alert a:hover {
+  cursor:pointer;
+}
+
+/* Ajax progress bar */
 /* Make clicks pass-through */
 #nprogress {
   pointer-events: none;

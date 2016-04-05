@@ -112,9 +112,6 @@ class EditItemModal extends Component {
 		//	Set the item and get all items:
 		CentralConfigAPIUtils.setConfigItem(this.state.configItem).then(CentralConfigAPIUtils.getAllConfigItems);
 
-		//	Reset state:
-		this.state.configItem = {};
-
 		//	Hide the dialog:
 		this.props.hide();
 	}

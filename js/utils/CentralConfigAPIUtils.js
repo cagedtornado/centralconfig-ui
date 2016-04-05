@@ -49,7 +49,7 @@ class CentralConfigAPIUtils {
           data: JSON.stringify(configItem)} 
         )
         .done(function(data) {
-            //  We might not need to sink this - let the caller just do a 'then' on the returned promise
+            ConfigActions.recieveRemovedConfigData(configItem);
         }.bind(this))
         .fail(function(xhr, error, ex) {
             //  Something bad happened
@@ -75,7 +75,8 @@ class CentralConfigAPIUtils {
           data: JSON.stringify(configItem)} 
         )
         .done(function(data) {
-            //  We might not need to sink this - let the caller just do a 'then' on the returned promise
+            //  Clear the 'removed config' undo buffer
+            ConfigActions.clearRemovedConfigData();
         }.bind(this))
         .fail(function(xhr, error, ex) {
             //  Something bad happened

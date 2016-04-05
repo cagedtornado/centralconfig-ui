@@ -7,6 +7,7 @@ import Modal from 'react-bootstrap-modal'
 //	Modals
 import AddItemModal from './AddItemModal.react'
 import EditItemModal from './EditItemModal.react'
+import UndoRemoveAlert from './UndoRemoveAlert.react';
 
 //  Grid component
 import FixedDataTable from 'fixed-data-table';
@@ -17,6 +18,7 @@ import CentralConfigAPIUtils from '../utils/CentralConfigAPIUtils';
 
 //	The stores
 import ConfigStore from '../stores/ConfigStore';
+import RemovedConfigStore from '../stores/RemovedConfigStore';
 
 class MainApp extends Component {
 
@@ -68,8 +70,9 @@ class MainApp extends Component {
 				<p>
 					<button type="button" onClick={this.showNewConfigItem}>Add config item</button>
 				</p>
+				<UndoRemoveAlert />
 				
-				<div>
+				<div className="configGrid">
 					<Table
 			        rowsCount={this.state.configItems.length}
 			        rowHeight={40}
