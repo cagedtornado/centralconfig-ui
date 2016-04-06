@@ -51,11 +51,6 @@ class MainApp extends Component {
 	}
 
 	render() {
- 
- 		//	If we don't have config items, we shouldn't display the grid -- display a welcome message
-		if(this.state.configItems.length == 0){
-			return null;
-		}
 
 		var {dataList} = this.state.configItems;
 

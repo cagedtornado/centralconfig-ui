@@ -614,11 +614,6 @@ var MainApp = (function (_Component) {
 		value: function render() {
 			var _this = this;
 
-			//	If we don't have config items, we shouldn't display the grid -- display a welcome message
-			if (this.state.configItems.length == 0) {
-				return null;
-			}
-
 			var dataList = this.state.configItems.dataList;
 
 			//	Return the app HTML to render		
