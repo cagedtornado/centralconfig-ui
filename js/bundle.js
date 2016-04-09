@@ -586,7 +586,8 @@ var MainApp = (function (_Component) {
 		//  Set initial state:
 		this.state = {
 			configItems: [],
-			currentEditConfigItem: {}
+			currentEditConfigItem: {},
+			applications: []
 		};
 
 		//  Bind our events:
@@ -674,7 +675,8 @@ var MainApp = (function (_Component) {
 		key: '_onChange',
 		value: function _onChange() {
 			this.setState({
-				configItems: _storesConfigStore2['default'].getConfigItems()
+				configItems: _storesConfigStore2['default'].getConfigItems(),
+				applications: _storesConfigStore2['default'].getApplications()
 			});
 		}
 	}, {
@@ -959,6 +961,21 @@ var ConfigStore = (function (_Store) {
     key: 'getConfigItems',
     value: function getConfigItems() {
       return this.configitems;
+    }
+  }, {
+    key: 'getApplications',
+    value: function getApplications() {
+      var applications = [];
+
+      //  Cycle through and get the list of applications:
+      applications = this.configitems.map(function (item) {
+        return item.application;
+      });
+      applications = applications.filter(function (v, i) {
+        return applications.indexOf(v) == i;
+      });
+
+      return applications;
     }
   }, {
     key: '__onDispatch',

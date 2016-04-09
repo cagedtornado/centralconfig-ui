@@ -14,6 +14,16 @@ class ConfigStore extends Store {
     return this.configitems;
   }
 
+  getApplications() {
+    let applications = [];
+
+    //  Cycle through and get the list of applications:
+    applications = this.configitems.map(function(item) { return item.application; });
+    applications = applications.filter(function(v,i) { return applications.indexOf(v) == i; });
+
+    return applications;
+  }
+
   __onDispatch(action) {
 
     switch(action.actionType) {

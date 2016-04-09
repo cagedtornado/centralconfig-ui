@@ -29,7 +29,8 @@ class MainApp extends Component {
 		//  Set initial state:
 		this.state = {
 			configItems: [],
-			currentEditConfigItem: {}
+			currentEditConfigItem: {},
+			applications: []
 	    };
 
 	    //  Bind our events: 
@@ -146,7 +147,8 @@ class MainApp extends Component {
 
 	_onChange() {
     	this.setState({
-	      configItems: ConfigStore.getConfigItems()
+	      configItems: ConfigStore.getConfigItems(),
+	      applications: ConfigStore.getApplications()
 	    });
   	}
 
