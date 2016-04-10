@@ -13,6 +13,16 @@ class ConfigActions {
 
 	}
 
+	//	Filter the config data
+	filterConfigData(appName) {
+
+		AppDispatcher.dispatch({
+		  actionType: CentralConfigConstants.RECIEVE_APPFILTER,
+		  appFilter: appName
+		});
+
+	}
+
 	//	Updates the 'removed item' store
 	recieveRemovedConfigData(configData) {
 

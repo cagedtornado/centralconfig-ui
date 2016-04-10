@@ -19,6 +19,7 @@ import CentralConfigAPIUtils from '../utils/CentralConfigAPIUtils';
 //	The stores
 import ConfigStore from '../stores/ConfigStore';
 import RemovedConfigStore from '../stores/RemovedConfigStore';
+import AppFilterStore from '../stores/AppFilterStore';
 
 class MainApp extends Component {
 
