@@ -4,6 +4,9 @@ import moment from 'moment';
 import Dimensions from 'react-dimensions'
 import Modal from 'react-bootstrap-modal'
 
+//	Components
+import NavHeader from './NavHeader.react'
+
 //	Modals
 import AddItemModal from './AddItemModal.react'
 import EditItemModal from './EditItemModal.react'
@@ -60,7 +63,12 @@ class MainApp extends Component {
 
 		//	Return the app HTML to render		
 		return (
+
 			<div>
+
+		      <NavHeader applications={this.state.applications} />
+
+		      <div>
 				<h3>Welcome to CentralConfig</h3>
 				<p>
 					Manage your application configuration from a central place.  
@@ -82,7 +90,10 @@ class MainApp extends Component {
 				{this.state.showNewItemDialog ? <AddItemModal show={this.state.showNewItemDialog} hide={this.hideNewConfigItem} /> : null}
 				{this.state.showEditItemDialog ? <EditItemModal show={this.state.showEditItemDialog} hide={this.hideEditConfigItem} configItem={this.state.currentEditConfigItem} /> : null}
 			</div>
-			);
+
+		    </div>
+			
+		);
 	}
 
 	_onChange() {
