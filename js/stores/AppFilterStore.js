@@ -11,8 +11,8 @@ class AppFilterStore extends Store {
     this.appFilter = "";
   }
 
-  getPage() {
-    return this.currentPage;
+  getAppFilter() {
+    return this.appFilter;
   }
 
   __onDispatch(action) {

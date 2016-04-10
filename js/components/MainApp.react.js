@@ -10,8 +10,7 @@ import EditItemModal from './EditItemModal.react'
 import UndoRemoveAlert from './UndoRemoveAlert.react';
 
 //  Grid component
-import FixedDataTable from 'fixed-data-table';
-const {Table, Column, Cell} = FixedDataTable;
+import ConfigItemsGrid from './ConfigItemsGrid.react';
 
 //	The API utils
 import CentralConfigAPIUtils from '../utils/CentralConfigAPIUtils';
@@ -31,7 +30,8 @@ class MainApp extends Component {
 		this.state = {
 			configItems: [],
 			currentEditConfigItem: {},
-			applications: []
+			applications: [],
+			appfilter: ""
 	    };
 
 	    //  Bind our events: 
@@ -45,16 +45,18 @@ class MainApp extends Component {
 	componentDidMount() {
 	    //  Add store listeners ... and notify ME of changes
 	    this.configListener = ConfigStore.addListener(this._onChange);
+	    this.appfilterListener = AppFilterStore.addListener(this._onChange);
 	}
 
 	componentWillUnmount() {
 	    //  Remove store listeners
 	    this.configListener.remove();
+	    this.appfilterListener.remove();
 	}
 
 	render() {
 
-		var {dataList} = this.state.configItems;
+		var dataList = this.state.configItems;
 
 		//	Return the app HTML to render		
 		return (
@@ -67,78 +69,15 @@ class MainApp extends Component {
 				<p>
 					<button type="button" onClick={this.showNewConfigItem}>Add config item</button>
 				</p>
+
 				<UndoRemoveAlert />
 				
-				<div className="configGrid">
-					<Table
-			        rowsCount={this.state.configItems.length}
-			        rowHeight={40}
-			        headerHeight={40}
-			        width={this.props.containerWidth}
-			        height={400}
-			        {...this.props}>
-			        <Column
-			          header={<Cell>Application</Cell>}
-			          cell={props => (
-			            <Cell {...props}>
-			              {this.state.configItems[props.rowIndex].application}
-			            </Cell>
-			          )}
-			          fixed={true}
-			          width={175}
-			        />
-			        <Column
-			          header={<Cell>Name</Cell>}
-			          cell={props => (
-			            <Cell {...props}>
-			              {this.state.configItems[props.rowIndex].name}
-			            </Cell>
-			          )}
-			          fixed={true}
-			          width={175}
-			        />
-			        <Column
-			          header={<Cell>Value</Cell>}
-			          cell={props => (
-			            <Cell {...props}>
-			              {this.state.configItems[props.rowIndex].value}
-			            </Cell>
-			          )}
-			          flexGrow={2}
-			          width={200}
-			        />
-			        <Column
-			          header={<Cell>Machine</Cell>}
-			          cell={props => (
-			            <Cell {...props}>
-			              {this.state.configItems[props.rowIndex].machine}
-			            </Cell>
-			          )}
-			          flexGrow={1}
-			          width={200}
-			        />
-			        <Column
-			          header={<Cell>Last updated</Cell>}
-			          cell={props => (
-			            <Cell {...props}>
-			            	{moment(this.state.configItems[props.rowIndex].updated).format('MMM-D h:mm a')}
-			            </Cell>
-			          )}
-			          flexGrow={1}
-			          width={200}
-			        />
-			        <Column
-			          header={<Cell>Actions</Cell>}
-			          cell={props => (
-			            <Cell {...props}>
-			              <button onClick={()=>this.showEditConfigItem(this.state.configItems[props.rowIndex])}>Edit</button>&nbsp;
-			              <button onClick={()=>this.handleRemove(this.state.configItems[props.rowIndex])}>Remove</button>
-			            </Cell>
-			          )}
-			          width={150}
-			        />
-			      </Table>
-				</div>
+				<ConfigItemsGrid 
+					appfilter={this.state.appfilter} 
+					configItems={this.state.configItems}
+					showEditConfigItem={this.showEditConfigItem} 
+					handleRemove={this.handleRemove}
+					{...this.props} />
 
 				{this.state.showNewItemDialog ? <AddItemModal show={this.state.showNewItemDialog} hide={this.hideNewConfigItem} /> : null}
 				{this.state.showEditItemDialog ? <EditItemModal show={this.state.showEditItemDialog} hide={this.hideEditConfigItem} configItem={this.state.currentEditConfigItem} /> : null}
@@ -149,7 +88,8 @@ class MainApp extends Component {
 	_onChange() {
     	this.setState({
 	      configItems: ConfigStore.getConfigItems(),
-	      applications: ConfigStore.getApplications()
+	      applications: ConfigStore.getApplications(),
+	      appfilter: AppFilterStore.getAppFilter()
 	    });
   	}
 
