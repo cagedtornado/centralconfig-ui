@@ -41,7 +41,7 @@ class UndoRemoveAlert extends Component {
 
 		return (
 			<div className="alert alert-info" role="alert">
-				Config item <b>{this.state.removedConfigItem.application} / {this.state.removedConfigItem.name}</b> removed - <a onClick={this._undoRemoveClick}>Undo</a>
+				Config item <b>{this.state.removedConfigItem.application} / {this.state.removedConfigItem.name}</b> removed - <a onClick={this._undoRemoveClick}>UNDO</a>
 			</div>
 		);
 	}

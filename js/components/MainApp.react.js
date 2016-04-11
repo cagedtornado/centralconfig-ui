@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import moment from 'moment';
 import Dimensions from 'react-dimensions'
 import Modal from 'react-bootstrap-modal'
+import Mousetrap from 'mousetrap'
 
 //	Components
 import NavHeader from './NavHeader.react'
@@ -49,12 +50,18 @@ class MainApp extends Component {
 	    //  Add store listeners ... and notify ME of changes
 	    this.configListener = ConfigStore.addListener(this._onChange);
 	    this.appfilterListener = AppFilterStore.addListener(this._onChange);
+
+	    //	Add keyboard shortcuts
+	    Mousetrap.bind(['ctrl+shift+a'], this.showNewConfigItem);
 	}
 
 	componentWillUnmount() {
 	    //  Remove store listeners
 	    this.configListener.remove();
 	    this.appfilterListener.remove();
+
+	    //	Remove keyboard shortcuts
+	    Mousetrap.unbind(['ctrl+shift+a'], this.showNewConfigItem);
 	}
 
 	render() {
