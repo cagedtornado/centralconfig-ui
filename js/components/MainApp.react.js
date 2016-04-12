@@ -94,8 +94,8 @@ class MainApp extends Component {
 					handleRemove={this.handleRemove}
 					{...this.props} />
 
-				{this.state.showNewItemDialog ? <AddItemModal show={this.state.showNewItemDialog} hide={this.hideNewConfigItem} /> : null}
-				{this.state.showEditItemDialog ? <EditItemModal show={this.state.showEditItemDialog} hide={this.hideEditConfigItem} configItem={this.state.currentEditConfigItem} /> : null}
+				{this.state.showNewItemDialog ? <AddItemModal show={this.state.showNewItemDialog} hide={this.hideNewConfigItem} applications={this.state.applications} /> : null}
+				{this.state.showEditItemDialog ? <EditItemModal show={this.state.showEditItemDialog} hide={this.hideEditConfigItem} configItem={this.state.currentEditConfigItem} applications={this.state.applications} /> : null}
 			</div>
 
 		    </div>

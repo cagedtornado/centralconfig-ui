@@ -3,6 +3,9 @@ import {Component} from 'react';
 //	The API utils
 import CentralConfigAPIUtils from '../utils/CentralConfigAPIUtils';
 
+//	Actions
+import ConfigActions from '../actions/ConfigActions';
+
 //	The stores
 import RemovedConfigStore from '../stores/RemovedConfigStore';
 
@@ -19,6 +22,7 @@ class UndoRemoveAlert extends Component {
 	    //  Bind our events: 
     	this._undoRemoveClick = this._undoRemoveClick.bind(this);
     	this._onRemoveUpdate = this._onRemoveUpdate.bind(this);
+    	this._onClearUndo = this._onClearUndo.bind(this);
 	}
 
 	componentDidMount() {
@@ -41,9 +45,14 @@ class UndoRemoveAlert extends Component {
 
 		return (
 			<div className="alert alert-info" role="alert">
+				<button type="button" className="close" aria-label="Close" onClick={this._onClearUndo}><span aria-hidden="true">&times;</span></button>
 				Config item <b>{this.state.removedConfigItem.application} / {this.state.removedConfigItem.name}</b> removed - <a onClick={this._undoRemoveClick}>UNDO</a>
 			</div>
 		);
+	}
+
+	_onClearUndo(){
+		ConfigActions.clearRemovedConfigData();
 	}
 
 	_onRemoveUpdate(){		

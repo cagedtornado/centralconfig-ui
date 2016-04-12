@@ -33,6 +33,7 @@
     "browserify": "^6.2.0",
     "envify": "^3.0.0",
     "mousetrap": "^1.5.3",
+    "react-autocomplete": "^1.0.0-rc2",
     "uglify-js": "~2.4.15",
     "watchify": "^2.1.1"
   },

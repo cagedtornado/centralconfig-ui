@@ -2,9 +2,16 @@ import update from 'react-addons-update';
 import {Component} from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-bootstrap-modal'
+import Autocomplete from 'react-autocomplete'
 
 //	The API utils
 import CentralConfigAPIUtils from '../utils/CentralConfigAPIUtils';
+
+function matchStateToTerm (state, value) {
+  return (
+    state.toLowerCase().indexOf(value.toLowerCase()) !== -1 
+  )
+}
 
 class AddItemModal extends Component {
 
@@ -28,6 +35,25 @@ class AddItemModal extends Component {
 
 	render() {
 
+		//	Autocomplete helpers:
+		let styles = {
+		  item: {
+		    padding: '2px 6px',
+		    cursor: 'default'
+		  },
+
+		  highlightedItem: {
+		    color: 'white',
+		    background: 'hsl(200, 50%, 50%)',
+		    padding: '2px 6px',
+		    cursor: 'default'
+		  },
+
+		  menu: {
+		    border: 'solid 1px #ccc'
+		  }
+		}
+
 		//	Return the app HTML to render		
 		return (
 			<Modal show={this.props.show} onHide={this.props.hide} aria-labelledby="ModalHeader">
@@ -36,10 +62,26 @@ class AddItemModal extends Component {
 				</Modal.Header>
 
 				<Modal.Body>
-					<div className="form-group">
-					<label htmlFor="txtNewAppName">Application</label>
-					<input type="text" className="form-control" id="txtNewAppName" autoFocus value={this.state.newItem.application} onChange={this._onApplicationChange} onKeyPress={this._handleKeyPress} placeholder="Your application name"/>
-					</div>
+					
+					<Autocomplete
+			          value={this.state.newItem.application}
+			          labelText="Application"
+			          inputProps={{className: "form-control", autoFocus: "true"}}
+			          wrapperStyle={{}}
+			          wrapperProps={{className: "form-group", type: "text", id: "acApplication"}}
+			          items={this.props.applications}
+			          getItemValue={(item) => item}
+			          shouldItemRender={matchStateToTerm}
+			          onChange={(event, value) => this._onApplicationChange(value) }
+			          onSelect={value => this._onApplicationChange(value)}
+			          renderItem={(item, isHighlighted) => (
+			            <div
+			              style={isHighlighted ? styles.highlightedItem : styles.item}
+			              key={item}
+			            >{item}</div>
+			          )}
+			        />
+					
 					<div className="form-group">
 					<label htmlFor="txtNewName">Name</label>
 					<input type="text" className="form-control" id="txtNewName" value={this.state.newItem.name} onChange={this._onNameChange} onKeyPress={this._handleKeyPress} placeholder="Config item name"/>
@@ -70,11 +112,11 @@ class AddItemModal extends Component {
 		}
 	}
 
-	_onApplicationChange(event){
+	_onApplicationChange(value){
 		//  Using new Immutability helpers from 
 	    //  https://facebook.github.io/react/docs/update.html
 	    var newState = update(this.state, {
-	      newItem: {application: {$set: event.target.value}}
+	      newItem: {application: {$set: value}}
 	    });
 	    this.setState(newState);
 	}
