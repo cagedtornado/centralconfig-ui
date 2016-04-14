@@ -1,5 +1,5 @@
 {
-  "name": "centralconfig",
+  "name": "centralconfig-ui",
   "description": "CentralConfig UI dashboard",
   "version": "0.1.0",
   "author": "Dan Esparza",
@@ -26,14 +26,14 @@
     "react-bootstrap-modal": "^2.0.0",
     "react-dimensions": "^1.0.2",
     "react-dom": "^0.14.8",
-    "react-addons-update": "^0.14.8"
+    "react-addons-update": "^0.14.8",
+    "mousetrap": "^1.5.3",
+    "react-autocomplete": "^1.0.0-rc2"
   },
   "devDependencies": {
     "babelify": "^6.3.0",
     "browserify": "^6.2.0",
     "envify": "^3.0.0",
-    "mousetrap": "^1.5.3",
-    "react-autocomplete": "^1.0.0-rc2",
     "uglify-js": "~2.4.15",
     "watchify": "^2.1.1"
   },
@@ -48,7 +48,7 @@
   "main": "js/app.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/danesparza/centralconfig.git"
+    "url": "https://github.com/danesparza/centralconfig-ui.git"
   },
   "scripts": {
     "build": "browserify js/app.js -t babelify | uglifyjs -cm > js/bundle.js",
