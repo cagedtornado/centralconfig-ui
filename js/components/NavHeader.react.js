@@ -4,9 +4,7 @@ import ReactDOM from 'react-dom';
 class NavHeader extends Component {
 
 	render() {
-		//	Get our list of applications
-
-		//	Return the app HTML to render		
+		
 		return (
 
 			<nav className="navbar navbar-default">
@@ -33,6 +31,16 @@ class NavHeader extends Component {
 			              }})}
 		                  <li className="divider"></li>
 		                  <li><a href="/ui#/">All applications</a></li>
+		                </ul>
+		              </li>
+
+		              <li className="dropdown">
+		                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Help <span className="caret"></span></a>
+		                <ul className="dropdown-menu" role="menu">
+		                  <li><a href="https://github.com/danesparza/centralconfig" target="_blank">Project site</a></li>
+		                  <li><a href="https://github.com/danesparza/centralconfig/issues" target="_blank">Found a bug?</a></li>
+		                  <li className="divider"></li>
+		                  <li><a href="https://github.com/danesparza/centralconfig/tree/master/api" target="_blank">API documentation</a></li>
 		                </ul>
 		              </li>
 
