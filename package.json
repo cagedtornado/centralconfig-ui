@@ -10,7 +10,7 @@
     ]
   },
   "bugs": {
-    "url": "https://github.com/danesparza/centralconfig/issues"
+    "url": "https://github.com/cagedtornado/centralconfig/issues"
   },
   "dependencies": {
     "cookies-js": "^1.0.0",
@@ -48,7 +48,7 @@
   "main": "js/app.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/danesparza/centralconfig-ui.git"
+    "url": "https://github.com/cagedtornado/centralconfig-ui.git"
   },
   "scripts": {
     "build": "browserify js/app.js -t babelify | uglifyjs -cm > js/bundle.js",
