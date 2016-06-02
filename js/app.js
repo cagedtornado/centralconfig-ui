@@ -41,7 +41,7 @@ ws.addEventListener("message", function(e){
 			ConfigActions.recieveUpdatedConfigData(configEvent.data);
 			break;
 		case "Removed":
-			console.log("Need to remove ", configEvent.data)
+			ConfigActions.recieveRemovedConfigData(configEvent.data);
 			break;
 	}
 })

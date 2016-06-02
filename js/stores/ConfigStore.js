@@ -56,6 +56,15 @@ class ConfigStore extends Store {
         //  Indicate there was a change:
         this.__emitChange();
         break;        
+      
+      case CentralConfigConstants.RECIEVE_REMOVED_CONFIGITEM:
+        //  Update the config item specified:
+        let reducedConfigItems = this.configitems.delete(action.removedItem.id);
+        this.configitems = reducedConfigItems;
+
+        //  Indicate there was a change:
+        this.__emitChange();
+        break;        
 
       default:
         // no op

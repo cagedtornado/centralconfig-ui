@@ -172,7 +172,7 @@ ws.addEventListener("message", function (e) {
 			_actionsConfigActions2['default'].recieveUpdatedConfigData(configEvent.data);
 			break;
 		case "Removed":
-			console.log("Need to remove ", configEvent.data);
+			_actionsConfigActions2['default'].recieveRemovedConfigData(configEvent.data);
 			break;
 	}
 });
@@ -1457,6 +1457,15 @@ var ConfigStore = (function (_Store) {
           //  Update the config item specified:
           var updatedConfigItems = this.configitems.set(action.configItem.id, action.configItem);
           this.configitems = updatedConfigItems;
+
+          //  Indicate there was a change:
+          this.__emitChange();
+          break;
+
+        case _constantsCentralConfigConstants2['default'].RECIEVE_REMOVED_CONFIGITEM:
+          //  Update the config item specified:
+          var reducedConfigItems = this.configitems['delete'](action.removedItem.id);
+          this.configitems = reducedConfigItems;
 
           //  Indicate there was a change:
           this.__emitChange();
