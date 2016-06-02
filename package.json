@@ -17,18 +17,19 @@
     "director": "^1.2.7",
     "fixed-data-table": "^0.6.0",
     "flux": "^2.1.1",
+    "immutable": "^3.8.1",
     "keymirror": "~0.1.0",
     "moment": "^2.9.0",
     "moment-timezone": "^0.3.0",
+    "mousetrap": "^1.5.3",
     "nprogress": "^0.2.0",
     "object-assign": "^1.0.0",
     "react": "^0.14.8",
+    "react-addons-update": "^0.14.8",
+    "react-autocomplete": "^1.0.0-rc2",
     "react-bootstrap-modal": "^2.0.0",
     "react-dimensions": "^1.0.2",
-    "react-dom": "^0.14.8",
-    "react-addons-update": "^0.14.8",
-    "mousetrap": "^1.5.3",
-    "react-autocomplete": "^1.0.0-rc2"
+    "react-dom": "^0.14.8"
   },
   "devDependencies": {
     "babelify": "^6.3.0",

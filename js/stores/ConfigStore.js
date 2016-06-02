@@ -1,26 +1,31 @@
 import {Store} from 'flux/utils';
 import AppDispatcher from '../dispatcher/AppDispatcher';
 import CentralConfigConstants from '../constants/CentralConfigConstants';
+import Immutable from 'immutable';
 
 class ConfigStore extends Store {
 
   constructor(dispatcher) {
     super(dispatcher);
 
-    this.configitems = [];
+    //  Use immutable to create a map of config items:
+    this.configitems = Immutable.Map();
   }
 
   getConfigItems() {
-    return this.configitems;
+    //  Return the array of config items:
+    return this.configitems.toArray();
   }
 
   getApplications() {
+    //  Placeholder array of applications
     let applications = [];
 
     //  Cycle through and get the list of applications:
-    applications = this.configitems.map(function(item) { return item.application; });
+    applications = this.configitems.toArray().map(function(item) { return item.application; });
     applications = applications.filter(function(v,i) { return applications.indexOf(v) == i; });
 
+    //  Return what we found:
     return applications;
   }
 
@@ -29,10 +34,19 @@ class ConfigStore extends Store {
     switch(action.actionType) {
 
       case CentralConfigConstants.RECIEVE_RAW_CONFIGITEMS:
-      console.log('Updating config store: ', action);
-      this.configitems = action.configData;
-      this.__emitChange();
-      break;
+        //  Raw update -- set all config items:
+        let newConfigItems = this.configitems.clear();
+        console.log('Updating config store: ', action);
+
+        //  For each config item, create an item in the map:
+        action.configData.map(function(configItem){            
+            newConfigItems = newConfigItems.set(configItem.id, configItem);
+        })
+        this.configitems = newConfigItems;
+
+        //  Indicate there was a change:
+        this.__emitChange();
+        break;
 
       default:
         // no op
