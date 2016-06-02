@@ -30,3 +30,18 @@ CentralConfigAPIUtils.getAllConfigItems();
 
 //	Start the app
 ReactDOM.render(<MainApp />, appElement);
+
+//	Listen to the websocket:
+let ws = new WebSocket("ws://"+ window.location.host + "/ws")
+ws.addEventListener("message", function(e){ 
+	let configEvent = JSON.parse(e.data);
+
+	switch(configEvent.type){
+		case "Updated":
+			ConfigActions.recieveUpdatedConfigData(configEvent.data);
+			break;
+		case "Removed":
+			console.log("Need to remove ", configEvent.data)
+			break;
+	}
+})

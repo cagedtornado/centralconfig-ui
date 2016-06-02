@@ -23,7 +23,17 @@ class ConfigActions {
 
 	}
 
-	//	Updates the 'removed item' store
+	//	An item has been added or updated
+	recieveUpdatedConfigData(configData) {
+
+		AppDispatcher.dispatch({
+		  actionType: CentralConfigConstants.RECIEVE_UPDATED_CONFIGITEM,
+		  configItem: configData
+		});
+
+	}
+
+	//	An item has been removed
 	recieveRemovedConfigData(configData) {
 
 		AppDispatcher.dispatch({
@@ -33,7 +43,7 @@ class ConfigActions {
 
 	}
 
-	//	Clears the 'removed item' store
+	//	We don't have an item to remove
 	clearRemovedConfigData() {
 
 		AppDispatcher.dispatch({

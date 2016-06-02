@@ -18,7 +18,7 @@ class ConfigStore extends Store {
   }
 
   getApplications() {
-    //  Placeholder array of applications
+    //  Temporary array of applications
     let applications = [];
 
     //  Cycle through and get the list of applications:
@@ -47,6 +47,15 @@ class ConfigStore extends Store {
         //  Indicate there was a change:
         this.__emitChange();
         break;
+
+      case CentralConfigConstants.RECIEVE_UPDATED_CONFIGITEM:
+        //  Update the config item specified:
+        let updatedConfigItems = this.configitems.set(action.configItem.id, action.configItem);
+        this.configitems = updatedConfigItems;
+
+        //  Indicate there was a change:
+        this.__emitChange();
+        break;        
 
       default:
         // no op

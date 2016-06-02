@@ -48,7 +48,7 @@ class CentralConfigAPIUtils {
           url: url,
           data: JSON.stringify(configItem)} 
         )
-        .done(function(data) {
+        .done(function(data) { 
             ConfigActions.recieveRemovedConfigData(configItem);
         }.bind(this))
         .fail(function(xhr, error, ex) {

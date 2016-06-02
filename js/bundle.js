@@ -61,7 +61,18 @@ var ConfigActions = (function () {
 			});
 		}
 
-		//	Updates the 'removed item' store
+		//	An item has been added or updated
+	}, {
+		key: 'recieveUpdatedConfigData',
+		value: function recieveUpdatedConfigData(configData) {
+
+			_dispatcherAppDispatcher2['default'].dispatch({
+				actionType: _constantsCentralConfigConstants2['default'].RECIEVE_UPDATED_CONFIGITEM,
+				configItem: configData
+			});
+		}
+
+		//	An item has been removed
 	}, {
 		key: 'recieveRemovedConfigData',
 		value: function recieveRemovedConfigData(configData) {
@@ -72,7 +83,7 @@ var ConfigActions = (function () {
 			});
 		}
 
-		//	Clears the 'removed item' store
+		//	We don't have an item to remove
 	}, {
 		key: 'clearRemovedConfigData',
 		value: function clearRemovedConfigData() {
@@ -94,7 +105,7 @@ module.exports = exports['default'];
 'use strict';
 
 function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { 'default': obj };
+	return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
 var _react = require('react');
@@ -136,12 +147,12 @@ var _componentsMainAppReact2 = _interopRequireDefault(_componentsMainAppReact);
 //	Application element
 
 window.React = _react2['default'];var router = _director2['default'].Router({
-  '/': function _() {
-    _actionsConfigActions2['default'].filterConfigData("");
-  },
-  '/app/:appName': function appAppName(appName) {
-    _actionsConfigActions2['default'].filterConfigData(appName);
-  }
+	'/': function _() {
+		_actionsConfigActions2['default'].filterConfigData("");
+	},
+	'/app/:appName': function appAppName(appName) {
+		_actionsConfigActions2['default'].filterConfigData(appName);
+	}
 });
 router.init("/");var appElement = document.getElementById("centralconfigapp");
 
@@ -150,6 +161,21 @@ _utilsCentralConfigAPIUtils2['default'].getAllConfigItems();
 
 //	Start the app
 _reactDom2['default'].render(_react2['default'].createElement(_componentsMainAppReact2['default'], null), appElement);
+
+//	Listen to the websocket:
+var ws = new WebSocket("ws://" + window.location.host + "/ws");
+ws.addEventListener("message", function (e) {
+	var configEvent = JSON.parse(e.data);
+
+	switch (configEvent.type) {
+		case "Updated":
+			_actionsConfigActions2['default'].recieveUpdatedConfigData(configEvent.data);
+			break;
+		case "Removed":
+			console.log("Need to remove ", configEvent.data);
+			break;
+	}
+});
 
 },{"./actions/ConfigActions":1,"./components/MainApp.react":6,"./utils/CentralConfigAPIUtils":14,"director":15,"react":303,"react-dom":146}],3:[function(require,module,exports){
 'use strict';
@@ -1193,6 +1219,7 @@ var _keymirror2 = _interopRequireDefault(_keymirror);
 module.exports = (0, _keymirror2['default'])({
   RECIEVE_RAW_CONFIGITEMS: null,
   RECIEVE_REMOVED_CONFIGITEM: null,
+  RECIEVE_UPDATED_CONFIGITEM: null,
   RECIEVE_APPFILTER: null
 });
 
@@ -1391,7 +1418,7 @@ var ConfigStore = (function (_Store) {
   }, {
     key: 'getApplications',
     value: function getApplications() {
-      //  Placeholder array of applications
+      //  Temporary array of applications
       var applications = [];
 
       //  Cycle through and get the list of applications:
@@ -1421,6 +1448,15 @@ var ConfigStore = (function (_Store) {
             newConfigItems = newConfigItems.set(configItem.id, configItem);
           });
           this.configitems = newConfigItems;
+
+          //  Indicate there was a change:
+          this.__emitChange();
+          break;
+
+        case _constantsCentralConfigConstants2['default'].RECIEVE_UPDATED_CONFIGITEM:
+          //  Update the config item specified:
+          var updatedConfigItems = this.configitems.set(action.configItem.id, action.configItem);
+          this.configitems = updatedConfigItems;
 
           //  Indicate there was a change:
           this.__emitChange();
