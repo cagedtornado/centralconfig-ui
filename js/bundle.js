@@ -163,7 +163,11 @@ _utilsCentralConfigAPIUtils2['default'].getAllConfigItems();
 _reactDom2['default'].render(_react2['default'].createElement(_componentsMainAppReact2['default'], null), appElement);
 
 //	Listen to the websocket:
-var ws = new WebSocket("ws://" + window.location.host + "/ws");
+var wsprotocol = "ws:";
+if (window.location.protocol == "https:") {
+	wsprotocol = "wss:";
+}
+var ws = new WebSocket(wsprotocol + "//" + window.location.host + "/ws");
 ws.addEventListener("message", function (e) {
 	var configEvent = JSON.parse(e.data);
 

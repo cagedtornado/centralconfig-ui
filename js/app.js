@@ -32,7 +32,9 @@ CentralConfigAPIUtils.getAllConfigItems();
 ReactDOM.render(<MainApp />, appElement);
 
 //	Listen to the websocket:
-let ws = new WebSocket("ws://"+ window.location.host + "/ws")
+let wsprotocol = "ws:";
+if(window.location.protocol == "https:"){ wsprotocol = "wss:"; }
+let ws = new WebSocket(wsprotocol + "//"+ window.location.host + "/ws")
 ws.addEventListener("message", function(e){ 
 	let configEvent = JSON.parse(e.data);
 
