@@ -25,6 +25,12 @@ class RemovedConfigStore extends Store {
         this.__emitChange();
         break;
 
+      case CentralConfigConstants.CLEAR_REMOVED_CONFIGITEM:
+        console.log('Clearing removed config store: ', action);
+        this.removedItem = null;
+        this.__emitChange();
+        break;
+
       default:
         // no op
     }

@@ -47,8 +47,7 @@ class ConfigActions {
 	clearRemovedConfigData() {
 
 		AppDispatcher.dispatch({
-		  actionType: CentralConfigConstants.RECIEVE_REMOVED_CONFIGITEM,
-		  removedItem: null
+		  actionType: CentralConfigConstants.CLEAR_REMOVED_CONFIGITEM
 		});
 
 	}
