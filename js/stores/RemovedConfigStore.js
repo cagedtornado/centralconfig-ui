@@ -21,7 +21,12 @@ class RemovedConfigStore extends Store {
 
       case CentralConfigConstants.RECIEVE_REMOVED_CONFIGITEM:
         console.log('Updating removed config store: ', action);
-        this.removedItem = action.removedItem;
+
+        //  The removed item should include all fields except the original id:        
+        this.removedItem.application = action.removedItem.application;
+        this.removedItem.name = action.removedItem.name;
+        this.removedItem.value = action.removedItem.value;
+        this.removedItem.machine = action.removedItem.machine || ''; // Default machine to empty string
         this.__emitChange();
         break;
 
