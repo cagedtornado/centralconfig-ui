@@ -10,6 +10,8 @@ deployment:
     - mkdir -p /tmp/ui/css
     - cp css/*.css /tmp/ui/css
     - cp js/bundle.js /tmp/ui/js
+    - cp js/bootstrap.min.js /tmp/ui/js
+    - cp js/jquery.min.js /tmp/ui/js
     - cp index.html /tmp/ui/index.html
     - cd /tmp; zip -r9 $CIRCLE_ARTIFACTS/centralconfig-ui.zip ui
     - go get github.com/tcnksm/ghr

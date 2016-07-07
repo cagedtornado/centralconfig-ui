@@ -16,7 +16,7 @@ class NavHeader extends Component {
 		              <span className="icon-bar"></span>
 		              <span className="icon-bar"></span>
 		            </button>
-		            <a className="navbar-brand" href="#">CentralConfig</a>
+		            <a className="navbar-brand" href="#/">CentralConfig</a>
 		          </div>
 
 		          <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -27,10 +27,10 @@ class NavHeader extends Component {
 		                <ul className="dropdown-menu" role="menu">
 		                  {this.props.applications.map(function(application) {
 		                  	if(application != "*"){
-			                return (<li key={application}><a href={"/ui#/app/" + application}>{application}</a></li>);
+			                return (<li key={application}><a href={"#/app/" + application}>{application}</a></li>);
 			              }})}
 		                  <li className="divider"></li>
-		                  <li><a href="/ui#/">All applications</a></li>
+		                  <li><a href="#/">All applications</a></li>
 		                </ul>
 		              </li>
 
