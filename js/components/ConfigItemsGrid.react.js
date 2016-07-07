@@ -40,7 +40,6 @@ class ConfigItemsGrid extends Component {
 			              {dataList[props.rowIndex].application}
 			            </Cell>
 			          )}
-			          fixed={true}
 			          width={175}
 			        />
 			        <Column
@@ -50,7 +49,6 @@ class ConfigItemsGrid extends Component {
 			              {dataList[props.rowIndex].name}
 			            </Cell>
 			          )}
-			          fixed={true}
 			          width={175}
 			        />
 			        <Column
