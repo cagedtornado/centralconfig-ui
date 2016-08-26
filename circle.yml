@@ -13,6 +13,7 @@ deployment:
     - cp js/bootstrap.min.js /tmp/ui/js
     - cp js/jquery.min.js /tmp/ui/js
     - cp index.html /tmp/ui/index.html
+    - cp config.js /tmp/ui/config.js
     - cd /tmp; zip -r9 $CIRCLE_ARTIFACTS/centralconfig-ui.zip ui
     - go get github.com/tcnksm/ghr
     - ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME v1.0.$CIRCLE_BUILD_NUM $CIRCLE_ARTIFACTS/ || true

@@ -14,7 +14,7 @@ class CentralConfigAPIUtils {
 	getAllConfigItems(){
 
 		//  Format the url
-        let url = `/config/getall`;
+        let url = `${appconfig.serviceBaseUrl}/config/getall`;
 
         console.time("Fetched config data");
         nprogress.start();
@@ -38,7 +38,7 @@ class CentralConfigAPIUtils {
     removeConfigItem(configItem){
 
         //  Format the url
-        let url = `/config/remove`;
+        let url = `${appconfig.serviceBaseUrl}/config/remove`;
 
         console.log("Removing config: %O", configItem)
         console.time("Called remove");
@@ -64,7 +64,7 @@ class CentralConfigAPIUtils {
     setConfigItem(configItem){
 
         //  Format the url
-        let url = `/config/set`;
+        let url = `${appconfig.serviceBaseUrl}/config/set`;
 
         console.log("Setting config: %O", configItem)
         console.time("Set config data");
