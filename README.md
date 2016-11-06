@@ -2,4 +2,4 @@
 UI for the [centralconfig service](https://github.com/cagedtornado/centralconfig)
 
 
-![Screenshot](screenshot.png?raw=true)
+![Screenshot of dashboard](screenshot.png?raw=true)
