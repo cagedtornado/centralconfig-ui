@@ -1,4 +1,21 @@
+machine:
+  environment:
+    PACKAGE_PATH: "github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"    
+    GOPATH: "$HOME/.go_workspace"
+    PROJECT_DIR: "$GOPATH/src/$PACKAGE_PATH"
+    GODIST: "go1.7.linux-amd64.tar.gz"
+  post:
+    # Install the specified version of Go
+    - mkdir -p download
+    - test -e download/$GODIST || curl -o download/$GODIST https://storage.googleapis.com/golang/$GODIST
+    - sudo rm -rf /usr/local/go
+    - sudo tar -C /usr/local -xzf download/$GODIST    
+    
 dependencies:
+  pre:    
+    # Sanity check that our go version is installed
+    - go version
+    
   post:
     - npm run build
 
