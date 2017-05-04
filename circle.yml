@@ -24,8 +24,9 @@ deployment:
     branch: master
     commands:
     - mkdir -p /tmp/ui/js
-    - mkdir -p /tmp/ui/css
+    - mkdir -p /tmp/ui/css/fonts
     - cp css/*.css /tmp/ui/css
+    - cp css/fonts/*.* /tmp/ui/css/fonts
     - cp js/bundle.js /tmp/ui/js
     - cp js/bootstrap.min.js /tmp/ui/js
     - cp js/jquery.min.js /tmp/ui/js
