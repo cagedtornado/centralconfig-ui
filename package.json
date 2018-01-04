@@ -1,58 +1,27 @@
 {
   "name": "centralconfig-ui",
-  "description": "CentralConfig UI dashboard",
+  "homepage": "http://centralconfig.com/ui",
   "version": "0.1.0",
-  "author": "Dan Esparza",
-  "browserify": {
-    "transform": [
-      "babelify",
-      "envify"
-    ]
-  },
-  "bugs": {
-    "url": "https://github.com/cagedtornado/centralconfig/issues"
-  },
+  "private": true,
   "dependencies": {
-    "cookies-js": "^1.0.0",
-    "director": "^1.2.7",
-    "fixed-data-table": "^0.6.0",
-    "flux": "^2.1.1",
-    "immutable": "^3.8.1",
-    "keymirror": "~0.1.0",
-    "moment": "^2.9.0",
-    "moment-timezone": "^0.3.0",
-    "mousetrap": "^1.5.3",
+    "bootstrap": "4.0.0-beta.2",
+    "flux": "^3.1.3",
+    "font-awesome": "^4.7.0",
+    "immutable": "^3.8.2",
+    "moment": "^2.19.4",
+    "moment-timezone": "^0.5.14",
     "nprogress": "^0.2.0",
-    "object-assign": "^1.0.0",
-    "react": "^0.14.8",
-    "react-addons-update": "^0.14.8",
-    "react-autocomplete": "^1.0.0-rc2",
-    "react-bootstrap-modal": "^2.0.0",
-    "react-dimensions": "^1.0.2",
-    "react-dom": "^0.14.8"
-  },
-  "devDependencies": {
-    "babelify": "^6.3.0",
-    "browserify": "^6.2.0",
-    "envify": "^3.0.0",
-    "uglify-js": "~2.4.15",
-    "watchify": "^2.1.1"
-  },
-  "keywords": [
-    "config",
-    "configuration",
-    "appconfig",
-    "appsettings",
-    "dashboard"
-  ],
-  "license": "MIT",
-  "main": "js/app.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cagedtornado/centralconfig-ui.git"
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-enroute": "^1.0.0",
+    "react-scripts": "1.0.17",
+    "react-table": "^6.7.5",
+    "reactstrap": "^5.0.0-alpha.4"
   },
   "scripts": {
-    "build": "browserify js/app.js -t babelify | uglifyjs -cm > js/bundle.js",
-    "start": "watchify -v -t babelify js/app.js -o js/bundle.js"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   }
 }
