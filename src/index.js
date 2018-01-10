@@ -4,7 +4,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 //  Stylesheets & images
-import 'bootstrap/dist/css/bootstrap.css';
+import 'bootswatch/dist/flatly/bootstrap.min.css';
 
 //  Utils:
 import CentralConfigAPIUtils from './utils/CentralConfigAPIUtils';

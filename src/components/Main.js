@@ -21,10 +21,19 @@ class Main extends Component {
             <div>
                 <Navbar {...this.props} />
 
-                <Container>
+                <Container fluid>
                     
                     <Row className="page-heading">
-                        <Col><h3>Welcome to CentralConfig</h3></Col>                        
+                        <Col>
+                            <h4>Welcome to CentralConfig</h4>
+                            <p>
+                                Manage your application configuration from a central place. See configuration for a 
+                                specific application by selecting it from the menu.                                
+                            </p>
+                            <p>
+                                <button>Add config item</button>
+                            </p> 
+                        </Col>                                                                                               
                     </Row>
                     <Row>
                         <Col>
@@ -37,6 +46,23 @@ class Main extends Component {
                                 }, {
                                     Header: 'Name',
                                     accessor: 'name'
+                                }, {
+                                    Header: 'Value',
+                                    accessor: 'value'
+                                }, {
+                                    Header: 'Machine',
+                                    accessor: 'machine'
+                                }, {
+                                    Header: 'Last updated',
+                                    accessor: 'updated'
+                                }, {
+                                    Header: 'Actions',
+                                    accessor: 'actions',
+                                    Cell: row => (
+                                        <div>
+                                            <button>Edit</button> <button>Remove</button>
+                                        </div>
+                                    )
                                 }]
                             }]}
                             defaultPageSize={10}
@@ -48,7 +74,6 @@ class Main extends Component {
                                 }
                               ]}
                             noDataText="No config items found"
-                            filterable
                         />
                         </Col>
                     </Row>
