@@ -9,12 +9,16 @@ import {
     ModalFooter
 } from 'reactstrap';
 
-class AddConfigItem extends Component {
+class EditConfigItem extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      modal: false
+      modal: false,
+      app: props.item.application,
+      name: props.item.name,
+      value: props.item.value,
+      machine: props.item.machine
     };
     
   }
@@ -33,26 +37,27 @@ class AddConfigItem extends Component {
 
   render() {
     return (
-      <div>
-        <Button color="primary" onClick={this.toggle}>{this.props.buttonLabel}</Button>
+
+      <span>
+        <Button size="sm" color="primary" onClick={this.toggle}>{this.props.buttonLabel}</Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>Add a new config item</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Edit config item</ModalHeader>
           <ModalBody>
             <div className="form-group">
               <label htmlFor="txtApplication">App name</label>
-              <input type="text" className="form-control" id="txtApplication" placeholder="Name of your application"/>              
+              <input type="text" className="form-control" id="txtApplication" placeholder="Name of your application" value={this.state.app} onChange={this._onAppChange}/>              
             </div>
             <div className="form-group">
               <label htmlFor="txtNewName">Name</label>
-              <input type="text" className="form-control" id="txtNewName" placeholder="Config item name"/>
+              <input type="text" className="form-control" id="txtNewName" placeholder="Config item name" value={this.state.name}/>
             </div>
             <div className="form-group">
               <label htmlFor="txtNewValue">Value</label>
-              <input type="text" className="form-control" id="txtNewValue" placeholder="Config value"/>
+              <input type="text" className="form-control" id="txtNewValue" placeholder="Config value" value={this.state.value}/>
             </div>
             <div className="form-group">
               <label htmlFor="txtNewMachine">Machine</label>
-              <input type="text" className="form-control" id="txtNewMachine" placeholder="Optional machine name"/>
+              <input type="text" className="form-control" id="txtNewMachine" placeholder="Optional machine name" value={this.state.machine}/>
             </div>
             
           </ModalBody>
@@ -61,9 +66,17 @@ class AddConfigItem extends Component {
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
           </ModalFooter>
         </Modal>
-      </div>
+      </span>
     );
   }
+
+  _onAppChange = (e) => {
+      this.setState({
+          app: e.value
+      });
+  }
+
+
 }
 
-export default AddConfigItem;
+export default EditConfigItem;

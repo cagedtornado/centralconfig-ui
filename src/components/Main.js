@@ -15,6 +15,7 @@ import "react-table/react-table.css";
 //  Components
 import Navbar from './NavBar';
 import AddConfigItem from './AddConfigItem';
+import EditConfigItem from './EditConfigItem';
 
 class Main extends Component {
 
@@ -68,7 +69,7 @@ class Main extends Component {
                                     Header: 'Actions',
                                     Cell: ({row, original}) => (
                                         <div>
-                                            <button>Edit</button> <button>Remove</button>
+                                            <EditConfigItem buttonLabel="Edit" item={row} /> <button>Remove</button>
                                         </div>
                                     ),
                                     sortable: false
