@@ -6,11 +6,15 @@ import {
     Col,
 } from 'reactstrap';
 
+import moment from 'moment';
+
+//  React table
 import ReactTable from 'react-table';
 import "react-table/react-table.css"; 
 
 //  Components
 import Navbar from './NavBar';
+import AddConfigItem from './AddConfigItem';
 
 class Main extends Component {
 
@@ -27,11 +31,11 @@ class Main extends Component {
                         <Col>
                             <h4>Welcome to CentralConfig</h4>
                             <p>
-                                Manage your application configuration from a central place. See configuration for a 
-                                specific application by selecting it from the menu.                                
+                                Manage your application configuration and feature flags from a central place. 
+                                See configuration for a specific application by selecting it from the menu.                                
                             </p>
                             <p>
-                                <button>Add config item</button>
+                                <AddConfigItem buttonLabel="Add a config item" />
                             </p> 
                         </Col>                                                                                               
                     </Row>
@@ -54,15 +58,20 @@ class Main extends Component {
                                     accessor: 'machine'
                                 }, {
                                     Header: 'Last updated',
-                                    accessor: 'updated'
+                                    accessor: 'updated',
+                                    Cell: ({row, original}) => {
+                                        return (
+                                            <div>{moment(row.updated).format('MMM-D h:mm a')}</div>
+                                        )
+                                    }                                
                                 }, {
                                     Header: 'Actions',
-                                    accessor: 'actions',
-                                    Cell: row => (
+                                    Cell: ({row, original}) => (
                                         <div>
                                             <button>Edit</button> <button>Remove</button>
                                         </div>
-                                    )
+                                    ),
+                                    sortable: false
                                 }]
                             }]}
                             defaultPageSize={10}

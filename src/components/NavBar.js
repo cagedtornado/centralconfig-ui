@@ -42,7 +42,7 @@ class NavBar extends Component {
                 <NavLink href="#/settings">Settings</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://github.com/danesparza/appliance-monitor">Help</NavLink>
+                <NavLink href="https://github.com/cagedtornado/centralconfig">Help</NavLink>
               </NavItem>
             </Nav>
           </Collapse>
