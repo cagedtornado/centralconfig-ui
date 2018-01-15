@@ -10,7 +10,8 @@ import 'bootswatch/dist/flatly/bootstrap.min.css';
 import CentralConfigAPIUtils from './utils/CentralConfigAPIUtils';
 
 //  Kick off the initial fetch:
-CentralConfigAPIUtils.getAllConfigItems();
+let APIUtils = new CentralConfigAPIUtils();
+APIUtils.getAllConfigItems();
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

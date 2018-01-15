@@ -20,15 +20,16 @@ class CentralConfigAPIUtils {
     }
 
     //	Gets all configuration items from the server
-    getAllConfigItems() {
+    getAllConfigItems() {        
+
+        console.time("Fetched config data");
 
         //  Format the url
         let url = `${this.baseUrl}/config/getall`;
-
-        console.time("Fetched config data");
+        
         nprogress.start();
 
-        fetch(url,
+        return fetch(url,
         {
             method: 'get',
             mode: 'cors'
@@ -127,4 +128,4 @@ class CentralConfigAPIUtils {
     }
 }
 
-export default new CentralConfigAPIUtils();
+export default CentralConfigAPIUtils;

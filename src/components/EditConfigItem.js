@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 
 //  Utils
-import APIUtils from '../utils/CentralConfigAPIUtils';
+import CentralConfigAPIUtils from '../utils/CentralConfigAPIUtils';
 
 class EditConfigItem extends Component {
   constructor(props) {
@@ -105,7 +105,8 @@ class EditConfigItem extends Component {
       };
 
       //  Set the item and get all items:
-      APIUtils.setConfigItem(param);
+      let APIUtils = new CentralConfigAPIUtils();
+      APIUtils.setConfigItem(param).then(() => APIUtils.getAllConfigItems());
 
       //  Hide the dialog:
       this.setState({
