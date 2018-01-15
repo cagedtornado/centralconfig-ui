@@ -40,7 +40,8 @@ class AddConfigItem extends Component {
           <ModalBody>
             <div className="form-group">
               <label htmlFor="txtApplication">App name</label>
-              <input type="text" className="form-control" id="txtApplication" placeholder="Name of your application"/>              
+              <input type="text" className="form-control" id="txtApplication" placeholder="Name of your application"/>
+              <small id="txtApplicationHelp" class="form-text text-muted">You can group configuration by the application that uses it.  Select * to set this for all applications</small>              
             </div>
             <div className="form-group">
               <label htmlFor="txtNewName">Name</label>

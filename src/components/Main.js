@@ -44,8 +44,13 @@ class Main extends Component {
                         <Col>
                         <ReactTable
                             data={this.props.configItems}
-                            columns={[{
-                                columns: [{
+                            columns={[{                                
+                                columns: [
+                                {
+                                    Header: 'Id',
+                                    accessor: 'id',
+                                    show: false
+                                },{
                                     Header: 'Application',
                                     accessor: 'application'
                                 }, {
@@ -69,17 +74,18 @@ class Main extends Component {
                                     Header: 'Actions',
                                     Cell: ({row, original}) => (
                                         <div>
-                                            <EditConfigItem buttonLabel="Edit" item={row} /> <button>Remove</button>
+                                            <EditConfigItem buttonLabel="Edit" item={row} /> <button className="btn btn-sm btn-outline-danger">Remove</button>
                                         </div>
                                     ),
-                                    sortable: false
+                                    sortable: false,
+                                    width: 120
                                 }]
                             }]}
                             defaultPageSize={10}
                             className="-striped -highlight"
                             defaultSorted={[
                                 {
-                                  id: "name",
+                                  id: "application",
                                   desc: true
                                 }
                               ]}

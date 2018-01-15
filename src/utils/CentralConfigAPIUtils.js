@@ -59,7 +59,7 @@ class CentralConfigAPIUtils {
     removeConfigItem(configItem) {
 
         //  Format the url
-        let url = `${appconfig.serviceBaseUrl}/config/remove`;
+        let url = `${this.baseUrl}/config/remove`;
 
         console.log("Removing config: %O", configItem)
         console.time("Called remove");
@@ -94,12 +94,12 @@ class CentralConfigAPIUtils {
     setConfigItem(configItem) {
 
         //  Format the url
-        let url = `${appconfig.serviceBaseUrl}/config/set`;
+        let url = `${this.baseUrl}/config/set`;
 
         console.log("Setting config: %O", configItem)
         console.time("Set config data");
 
-        fetch(url,
+        return fetch(url,
         {
             mode: 'cors',
             method: 'post',
