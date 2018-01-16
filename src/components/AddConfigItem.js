@@ -9,12 +9,19 @@ import {
     ModalFooter
 } from 'reactstrap';
 
+//  Utils
+import CentralConfigAPIUtils from '../utils/CentralConfigAPIUtils';
+
 class AddConfigItem extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      modal: false
+      modal: false,
+      app: "",
+      name: "",
+      value: "",
+      machine: ""
     };
     
   }
@@ -25,12 +32,6 @@ class AddConfigItem extends Component {
     });
   }
 
-  toggleDropDown = () => {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    });
-  }
-
   render() {
     return (
       <div>
@@ -38,33 +39,76 @@ class AddConfigItem extends Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Add a new config item</ModalHeader>
           <ModalBody>
-            <div className="form-group">
-              <label htmlFor="txtApplication">App name</label>
-              <input type="text" className="form-control" id="txtApplication" placeholder="Name of your application"/>
-              <small id="txtApplicationHelp" class="form-text text-muted">You can group configuration by the application that uses it.  Select * to set this for all applications</small>              
-            </div>
-            <div className="form-group">
-              <label htmlFor="txtNewName">Name</label>
-              <input type="text" className="form-control" id="txtNewName" placeholder="Config item name"/>
-            </div>
-            <div className="form-group">
-              <label htmlFor="txtNewValue">Value</label>
-              <input type="text" className="form-control" id="txtNewValue" placeholder="Config value"/>
-            </div>
-            <div className="form-group">
-              <label htmlFor="txtNewMachine">Machine</label>
-              <input type="text" className="form-control" id="txtNewMachine" placeholder="Optional machine name"/>
-            </div>
+          <div className="form-group">
+            <label htmlFor="txtApplication">App name</label>
+            <input type="text" className="form-control" id="txtApplication" placeholder="Name of your application" value={this.state.app} onChange={this._onAppChange}/>
+            <small id="txtApplicationHelp" class="form-text text-muted">You can group configuration by the application that uses it.  Select * to set this for all applications</small>              
+          </div>
+          <div className="form-group">
+            <label htmlFor="txtNewName">Name</label>
+            <input type="text" className="form-control" id="txtNewName" placeholder="Config item name" value={this.state.name} onChange={this._onNameChange}/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="txtNewValue">Value</label>
+            <input type="text" className="form-control" id="txtNewValue" placeholder="Config value" value={this.state.value} onChange={this._onValueChange}/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="txtNewMachine">Machine</label>
+            <input type="text" className="form-control" id="txtNewMachine" placeholder="Optional machine name" value={this.state.machine} onChange={this._onMachineChange}/>
+          </div>
             
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.toggle}>Save</Button>{' '}
+            <Button color="primary" onClick={this._onSave}>Save</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
           </ModalFooter>
         </Modal>
       </div>
     );
   }
+
+  _onAppChange = (e) => {
+      this.setState({
+          app: e.target.value
+      });
+  }
+
+  _onNameChange = (e) => {
+      this.setState({
+          name: e.target.value
+      });
+  }
+
+  _onValueChange = (e) => {
+      this.setState({
+          value: e.target.value
+      });
+  }
+
+  _onMachineChange = (e) => {
+      this.setState({
+          machine: e.target.value
+      });
+  }
+
+  _onSave = (e) => {
+      //  Create the object to add:
+      let param = {
+        application: this.state.app,
+        name: this.state.name,
+        value: this.state.value,
+        machine: this.state.machine
+      };
+
+      //  Add the item and get all items:
+      let APIUtils = new CentralConfigAPIUtils();
+      APIUtils.setConfigItem(param).then(() => APIUtils.getAllConfigItems());
+
+      //  Hide the dialog:
+      this.setState({
+        modal: false
+      });
+    }
 }
 
 export default AddConfigItem;
