@@ -30,13 +30,13 @@ class ConfigStore extends Store {
   }
 
   __onDispatch(action) {
+    console.log('Updating config store: ', action);
 
     switch(action.actionType) {
 
       case CentralConfigConstants.RECIEVE_RAW_CONFIGITEMS:
         //  Raw update -- set all config items:
         let newConfigItems = this.configitems.clear();
-        console.log('Updating config store: ', action);
 
         //  For each config item, create an item in the map:
         action.configData.map(function(configItem){            
