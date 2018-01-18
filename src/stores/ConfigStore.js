@@ -35,15 +35,11 @@ class ConfigStore extends Store {
     switch(action.actionType) {
 
       case CentralConfigConstants.RECIEVE_RAW_CONFIGITEMS:
+        
         //  Raw update -- set all config items:
-        let newConfigItems = this.configitems.clear();
-
-        //  For each config item, create an item in the map:
-        action.configData.map(function(configItem){            
-            newConfigItems = newConfigItems.set(configItem.id, configItem);
-        })
-        this.configitems = newConfigItems;
-
+        this.configitems = Immutable.Map(action.configData.map(
+          (item) => ([item.id, item])));
+          
         //  Indicate there was a change:
         this.__emitChange();
         break;
