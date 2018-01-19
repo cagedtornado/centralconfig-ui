@@ -8,6 +8,10 @@ import {
   Nav,
   NavItem,
   NavLink,
+  Dropdown, 
+  DropdownItem, 
+  DropdownToggle, 
+  DropdownMenu
 } from 'reactstrap';
 
 //  Stylesheets & images
@@ -20,7 +24,8 @@ class NavBar extends Component {
     super(props);
 
     this.state = {
-      isOpen: false,     
+      isOpen: false,
+      dropdownOpen: false
     };    
   }
 
@@ -30,22 +35,41 @@ class NavBar extends Component {
     });
   }
 
+  dropdownToggle = () => {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
+  }
+
   render() {
     
     return (
         <Navbar color="primary" dark expand="md">
           <NavbarBrand href="#/">CentralConfig</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
+          
+          <Nav navbar>
+            <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
+              <DropdownToggle nav caret>
+                Application
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem>App 1</DropdownItem>
+                <DropdownItem>App 2</DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>All applications</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </Nav>
+
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="#/settings">Settings</NavLink>
-              </NavItem>
               <NavItem>
                 <NavLink href="https://github.com/cagedtornado/centralconfig">Help</NavLink>
               </NavItem>
             </Nav>
           </Collapse>
+
+          <NavbarToggler onClick={this.toggle} />
         </Navbar>
     );
   }
