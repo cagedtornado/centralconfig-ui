@@ -65,7 +65,7 @@ class CentralConfigAPIUtils {
         console.log("Removing config: %O", configItem)
         console.time("Called remove");
 
-        fetch(url,
+        return fetch(url,
         {
             mode: 'cors',
             method: 'post',

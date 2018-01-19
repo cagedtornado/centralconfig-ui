@@ -16,6 +16,8 @@ import "react-table/react-table.css";
 import Navbar from './NavBar';
 import AddConfigItem from './AddConfigItem';
 import EditConfigItem from './EditConfigItem';
+import RemoveConfigItem from './RemoveConfigItem';
+import UndoRemoveAlert from './UndoRemoveAlert';
 
 class Main extends Component {
 
@@ -42,6 +44,9 @@ class Main extends Component {
                     </Row>
                     <Row>
                         <Col>
+                        
+                        <UndoRemoveAlert />
+
                         <ReactTable
                             data={this.props.configItems}
                             columns={[{                                
@@ -74,7 +79,8 @@ class Main extends Component {
                                     Header: 'Actions',
                                     Cell: ({row, original}) => (
                                         <div>
-                                            <EditConfigItem buttonLabel="Edit" item={row} /> <button className="btn btn-sm btn-outline-danger">Remove</button>
+                                            <EditConfigItem buttonLabel="Edit" item={row} /> 
+                                            <RemoveConfigItem buttonLabel="Remove" item={row} />
                                         </div>
                                     ),
                                     sortable: false,
@@ -97,7 +103,7 @@ class Main extends Component {
                 </Container>
             </div>
         );
-    }
+    }    
 
 }
 
