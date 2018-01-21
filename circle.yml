@@ -10,3 +10,10 @@ dependencies:
 test:
   override:
     - yarn test
+deployment:
+  hub:
+    branch: master
+    commands:
+      # Build our zip file
+      - echo "{\"version\":$CIRCLE_BUILD_NUM}" >> build/build.json
+      - cd build; zip -r9 $CIRCLE_ARTIFACTS/centralconfig-ui.zip .
