@@ -22,7 +22,16 @@ import UndoRemoveAlert from './UndoRemoveAlert';
 class Main extends Component {
 
     render() {
+        //  Our local copy of the config item list:
+        let dataList = this.props.configItems;
 
+        //  Filter the config data if we need to (default to everything):
+        let appFilter = this.props.params.selectedApp || "*";
+        if(appFilter !== "*"){
+            dataList = dataList.filter(function(v) { 
+                return v.application === appFilter || v.application === "*"; 
+            });
+        }
 
         return (
             <div>
@@ -48,7 +57,7 @@ class Main extends Component {
                         <UndoRemoveAlert />
 
                         <ReactTable
-                            data={this.props.configItems}
+                            data={dataList}
                             columns={[{                                
                                 columns: [
                                 {

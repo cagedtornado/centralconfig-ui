@@ -67,6 +67,7 @@ class App extends Component {
     return (
       <Router {...this.state}>
         <Route path="/" component={Main} />
+        <Route path="/app/:selectedApp" component={Main} />
         <Route path="*" component={NotFound} />
       </Router>
     );

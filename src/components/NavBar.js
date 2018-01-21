@@ -8,9 +8,9 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Dropdown, 
-  DropdownItem, 
-  DropdownToggle, 
+  Dropdown,
+  DropdownItem,
+  DropdownToggle,
   DropdownMenu
 } from 'reactstrap';
 
@@ -18,7 +18,7 @@ import {
 import './../App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
-class NavBar extends Component {  
+class NavBar extends Component {
 
   constructor(props) {
     super(props);
@@ -26,7 +26,7 @@ class NavBar extends Component {
     this.state = {
       isOpen: false,
       dropdownOpen: false
-    };    
+    };
   }
 
   toggle = () => {
@@ -42,36 +42,47 @@ class NavBar extends Component {
   }
 
   render() {
-    
+
     return (
-        <Navbar color="primary" dark expand="md">
-          <NavbarBrand href="#/">CentralConfig</NavbarBrand>
-          
-          <Nav navbar>
-            <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
-              <DropdownToggle nav caret>
-                Application
+      <Navbar color="primary" dark expand="md">
+        <NavbarBrand href="#/">CentralConfig</NavbarBrand>
+
+        <Nav navbar>
+          <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
+            <DropdownToggle nav caret>
+              Application
               </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem>App 1</DropdownItem>
-                <DropdownItem>App 2</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>All applications</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+            <DropdownMenu>
+              {this.props.applications
+                .filter(app => app !== "*")
+                .map(app => <DropdownItem onClick={() => this._onAppSelect(app)}>{app}</DropdownItem>)}
+              <DropdownItem divider />
+              <DropdownItem onClick={() => this._onAppSelect("*")}>All Applications</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </Nav>
+
+        <Collapse isOpen={this.state.isOpen} navbar>
+          <Nav className="ml-auto" navbar>
+            <NavItem>
+              <NavLink href="https://github.com/cagedtornado/centralconfig">Help</NavLink>
+            </NavItem>
           </Nav>
+        </Collapse>
 
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="https://github.com/cagedtornado/centralconfig">Help</NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
-
-          <NavbarToggler onClick={this.toggle} />
-        </Navbar>
+        <NavbarToggler onClick={this.toggle} />
+      </Navbar>
     );
+  }
+
+  _onAppSelect = (app) => {
+    //  For consistencies sake, if the app is * just make it blank
+    if (app === "*") {
+      window.location.hash = "/";
+    } else {
+      //  Navigate to the formatted app url:
+      window.location.hash = "/app/" + app;
+    }
   }
 
 }
