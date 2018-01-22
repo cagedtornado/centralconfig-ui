@@ -1,3 +1,9 @@
 .page-heading {
     margin-top: 15px;
 }
+
+/* Autocomplete hack styles */
+div#acApplication div:last-child{
+    top: inherit !important;
+    left: inherit !important;
+  }

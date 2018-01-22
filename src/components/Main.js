@@ -47,7 +47,7 @@ class Main extends Component {
                                 See configuration for a specific application by selecting it from the menu.                                
                             </p>
                             <p>
-                                <AddConfigItem buttonLabel="Add a config item" />
+                                <AddConfigItem buttonLabel="Add a config item" applications={this.props.applications} />
                             </p> 
                         </Col>                                                                                               
                     </Row>
@@ -88,7 +88,7 @@ class Main extends Component {
                                     Header: 'Actions',
                                     Cell: ({row, original}) => (
                                         <div>
-                                            <EditConfigItem buttonLabel="Edit" item={row} /> 
+                                            <EditConfigItem buttonLabel="Edit" item={row} applications={this.props.applications} /> 
                                             <RemoveConfigItem buttonLabel="Remove" item={row} />
                                         </div>
                                     ),

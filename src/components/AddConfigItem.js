@@ -9,6 +9,8 @@ import {
     ModalFooter
 } from 'reactstrap';
 
+import Autocomplete from 'react-autocomplete';
+
 //  Utils
 import CentralConfigAPIUtils from '../utils/CentralConfigAPIUtils';
 
@@ -33,17 +35,34 @@ class AddConfigItem extends Component {
   }
 
   render() {
+
     return (
       <div>
         <Button color="primary" onClick={this.toggle}>{this.props.buttonLabel}</Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Add a new config item</ModalHeader>
           <ModalBody>
+
           <div className="form-group">
             <label htmlFor="txtApplication">App name</label>
-            <input type="text" className="form-control" id="txtApplication" placeholder="Name of your application" value={this.state.app} onChange={this._onAppChange}/>
+            <Autocomplete 
+              getItemValue={(item) => item}
+              items={this.props.applications}
+              renderItem={(item, isHighlighted) =>
+                <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                  {item}
+                </div>
+              }
+              inputProps={{className: 'form-control'}}
+              value={this.state.app}
+              onChange={this._onAppChange}
+              onSelect={(val) => this.setState({app: val})}
+              wrapperStyle={{}}
+              wrapperProps={{id: "acApplication"}}
+            />
             <small id="txtApplicationHelp" class="form-text text-muted">You can group configuration by the application that uses it.  Select * to set this for all applications</small>              
           </div>
+
           <div className="form-group">
             <label htmlFor="txtNewName">Name</label>
             <input type="text" className="form-control" id="txtNewName" placeholder="Config item name" value={this.state.name} onChange={this._onNameChange}/>
