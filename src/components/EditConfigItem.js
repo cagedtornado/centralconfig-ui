@@ -1,13 +1,15 @@
 //  React
 import React, { Component } from 'react';
 
-import { 
-    Button, 
-    Modal, 
-    ModalHeader, 
-    ModalBody, 
-    ModalFooter
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
 } from 'reactstrap';
+
+import Autocomplete from 'react-autocomplete';
 
 //  Utils
 import CentralConfigAPIUtils from '../utils/CentralConfigAPIUtils';
@@ -24,7 +26,7 @@ class EditConfigItem extends Component {
       value: props.item.value,
       machine: props.item.machine
     };
-    
+
   }
 
   //  Toggles the modal dialog
@@ -44,22 +46,36 @@ class EditConfigItem extends Component {
           <ModalBody>
             <div className="form-group">
               <label htmlFor="txtApplication">App name</label>
-              <input type="text" className="form-control" id="txtApplication" placeholder="Name of your application" value={this.state.app} onChange={this._onAppChange}/>
-              <small id="txtApplicationHelp" class="form-text text-muted">You can group configuration by the application that uses it.  Select * to set this for all applications</small>              
+              <Autocomplete
+                getItemValue={(item) => item}
+                items={this.props.applications}
+                renderItem={(item, isHighlighted) =>
+                  <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                    {item}
+                  </div>
+                }
+                inputProps={{ className: 'form-control' }}
+                value={this.state.app}
+                onChange={this._onAppChange}
+                onSelect={(val) => this.setState({ app: val })}
+                wrapperStyle={{}}
+                wrapperProps={{ id: "acApplication" }}
+              />
+              <small id="txtApplicationHelp" class="form-text text-muted">You can group configuration by the application that uses it.  Select * to set this for all applications</small>
             </div>
             <div className="form-group">
               <label htmlFor="txtNewName">Name</label>
-              <input type="text" className="form-control" id="txtNewName" placeholder="Config item name" value={this.state.name} onChange={this._onNameChange}/>
+              <input type="text" className="form-control" id="txtNewName" placeholder="Config item name" value={this.state.name} onChange={this._onNameChange} />
             </div>
             <div className="form-group">
               <label htmlFor="txtNewValue">Value</label>
-              <input type="text" className="form-control" id="txtNewValue" placeholder="Config value" value={this.state.value} onChange={this._onValueChange}/>
+              <input type="text" className="form-control" id="txtNewValue" placeholder="Config value" value={this.state.value} onChange={this._onValueChange} />
             </div>
             <div className="form-group">
               <label htmlFor="txtNewMachine">Machine</label>
-              <input type="text" className="form-control" id="txtNewMachine" placeholder="Optional machine name" value={this.state.machine} onChange={this._onMachineChange}/>
+              <input type="text" className="form-control" id="txtNewMachine" placeholder="Optional machine name" value={this.state.machine} onChange={this._onMachineChange} />
             </div>
-            
+
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={this._onSave}>Save</Button>{' '}
@@ -71,47 +87,47 @@ class EditConfigItem extends Component {
   }
 
   _onAppChange = (e) => {
-      this.setState({
-          app: e.target.value
-      });
+    this.setState({
+      app: e.target.value
+    });
   }
 
   _onNameChange = (e) => {
-      this.setState({
-          name: e.target.value
-      });
+    this.setState({
+      name: e.target.value
+    });
   }
 
   _onValueChange = (e) => {
-      this.setState({
-          value: e.target.value
-      });
+    this.setState({
+      value: e.target.value
+    });
   }
 
   _onMachineChange = (e) => {
-      this.setState({
-          machine: e.target.value
-      });
+    this.setState({
+      machine: e.target.value
+    });
   }
 
   _onSave = (e) => {
-      //  Create out object to update:
-      let param = {
-        id: this.state.id,
-        application: this.state.app,
-        name: this.state.name,
-        value: this.state.value,
-        machine: this.state.machine
-      };
+    //  Create out object to update:
+    let param = {
+      id: this.state.id,
+      application: this.state.app,
+      name: this.state.name,
+      value: this.state.value,
+      machine: this.state.machine
+    };
 
-      //  Set the item and get all items:
-      let APIUtils = new CentralConfigAPIUtils();
-      APIUtils.setConfigItem(param).then(() => APIUtils.getAllConfigItems());
+    //  Set the item and get all items:
+    let APIUtils = new CentralConfigAPIUtils();
+    APIUtils.setConfigItem(param).then(() => APIUtils.getAllConfigItems());
 
-      //  Hide the dialog:
-      this.setState({
-        modal: false
-      });
+    //  Hide the dialog:
+    this.setState({
+      modal: false
+    });
   }
 
 
