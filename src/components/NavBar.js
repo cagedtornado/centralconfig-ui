@@ -51,7 +51,7 @@ class NavBar extends Component {
           <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
             <DropdownToggle nav caret>
               Application
-              </DropdownToggle>
+            </DropdownToggle>
             <DropdownMenu>
               {this.props.applications
                 .filter(app => app !== "*")

@@ -7,3 +7,8 @@ div#acApplication div:last-child{
     top: inherit !important;
     left: inherit !important;
   }
+
+/* Make sure tabs indicate they are clickable */
+.nav-tabs .nav-item {
+    cursor: pointer;
+}
