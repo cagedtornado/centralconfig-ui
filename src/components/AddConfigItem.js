@@ -139,31 +139,38 @@ class AddConfigItem extends Component {
                       <div className="form-group row">
                         <label htmlFor="txtFFUsers" className="col-sm-3 col-form-label">Users</label>
                         <div className="col-sm-9">
-                          <input type="text" className="form-control" id="txtFFUsers" placeholder="List of users to enable the feature for" />
+                          <input type="text" className="form-control" id="txtFFUsers" placeholder="Comma separated users to enable the feature for" onChange={this._onFeatureUsersChange} />
                         </div>
                       </div>
 
                       <div className="form-group row">
                         <label htmlFor="txtFFGroups" className="col-sm-3 col-form-label">Groups</label>
                         <div className="col-sm-9">
-                          <input type="text" className="form-control" id="txtFFGroups" placeholder="List of groups to enable the feature for" />
+                          <input type="text" className="form-control" id="txtFFGroups" placeholder="Comma separated groups to enable the feature for" onChange={this._onFeatureGroupsChange} />
                         </div>
                       </div>
 
                       <div className="form-group row">
                         <label htmlFor="txtFFPercentLoggedIn" className="col-sm-4 col-form-label">Percent logged in</label>
                         <div className="col-sm-8">
-                        <input type="number" min="0" max="100" className="form-control" id="txtFFPercentLoggedIn" placeholder="Enable for % of logged in users" />
+                          <input type="number" min="0" max="100" className="form-control" id="txtFFPercentLoggedIn" placeholder="Enable for % of logged in users" onChange={this._onFeaturePercentChange} />
+                        </div>
+                      </div>
+
+                      <div className="form-group row">
+                        <label htmlFor="txtFFVariant" className="col-sm-3 col-form-label">Variant</label>
+                        <div className="col-sm-9">
+                          <input type="text" className="form-control" id="txtFFVariant" placeholder="Variant name to use" onChange={this._onFeatureVariantChange} />
                         </div>
                       </div>
                     </form>
 
                     <div className="form-check">
-                      <input type="checkbox" className="form-check-input" id="chkAdmin" />
+                      <input type="checkbox" className="form-check-input" id="chkAdmin" onChange={this._onFeatureAdminChange} />
                       <label className="form-check-label" for="chkAdmin">Enable for Admin users</label>
                     </div>
                     <div className="form-check">
-                      <input type="checkbox" className="form-check-input" id="chkInternal" />
+                      <input type="checkbox" className="form-check-input" id="chkInternal" onChange={this._onFeatureInternalChange} />
                       <label className="form-check-label" for="chkInternal">Enable for Internal users</label>
                     </div>
 
@@ -207,8 +214,160 @@ class AddConfigItem extends Component {
   }
 
   _onFeatureEnabledChange = (e) => {
-    //  First, see if the current value can be parsed as JSON
+    //  Get the current feature flag:
+    let flag = this.getCurrentFeatureFlag();
+
+    let enabled = e.target.value;
+
+    if (enabled === "userules") {
+      delete flag.enabled;
+    } else {
+      //  Set the 'enabled' attribute
+      flag.enabled = enabled;
+    }
+
+    //  Save to the config item value
+    this.saveCurrentFeatureFlag(flag);
+  }
+
+  _onFeatureUsersChange = (e) => {
+    //  Get the current feature flag:
+    let flag = this.getCurrentFeatureFlag();
+
+    //  Parse users into an array
+    let users = e.target.value.split(",").map(function (item) {
+      //  Trim each user
+      return item.trim();
+    });
+
+    //  Filter out blank users:
+    users = users.filter(function (item) {
+      let retval = false;
+
+      if (item !== "") {
+        retval = true;
+      }
+
+      return retval;
+    });
+
+    //  Now if we (still) have users, set the 'users' attribute
+    //  Otherwise, just remove the attribute:
+    if (users.length > 0) {
+      flag.users = users;
+    } else {
+      delete flag.users;
+    }
+
+    //  Save to the config item value
+    this.saveCurrentFeatureFlag(flag);
+  }
+
+  _onFeatureGroupsChange = (e) => {
+    //  Get the current feature flag:
+    let flag = this.getCurrentFeatureFlag();
+
+    //  Parse groups into an array
+    let groups = e.target.value.split(",").map(function (item) {
+      //  Trim each user
+      return item.trim();
+    });
+
+    //  Filter out blank groups:
+    groups = groups.filter(function (item) {
+      let retval = false;
+
+      if (item !== "") {
+        retval = true;
+      }
+
+      return retval;
+    });
+
+    //  Now if we (still) have groups, set the 'groups' attribute
+    //  Otherwise, just remove the attribute:
+    if (groups.length > 0) {
+      flag.groups = groups;
+    } else {
+      delete flag.groups;
+    }
+
+    //  Save to the config item value
+    this.saveCurrentFeatureFlag(flag);
+  }
+
+  _onFeaturePercentChange = (e) => {
+    //  Get the current feature flag:
+    let flag = this.getCurrentFeatureFlag();
+
+    let percent = parseInt(e.target.value.trim(), 10);
+
+    //  If we don't have a number, just remove the attribute:
+    if (isNaN(percent)) {
+      delete flag.percent_loggedin;
+    } else {
+      //  Set the 'percent_loggedin' attribute
+      flag.percent_loggedin = percent;
+    }
+
+    //  Save to the config item value
+    this.saveCurrentFeatureFlag(flag);
+  }
+
+  _onFeatureVariantChange = (e) => {
+    //  Get the current feature flag:
+    let flag = this.getCurrentFeatureFlag();
+
+    let variant = e.target.value.trim();
+
+    if (variant === "") {
+      delete flag.variant_name;
+    } else {
+      //  Set the 'variant_name' attribute
+      flag.variant_name = variant;
+    }
+
+    //  Save to the config item value
+    this.saveCurrentFeatureFlag(flag);
+  }
+
+  _onFeatureAdminChange = (e) => {
+    //  Get the current feature flag:
+    let flag = this.getCurrentFeatureFlag();
+
+    //  If 'admin' is true, set the attribute to true
+    //  If it's false, just remove the attribute:
+    if (e.target.checked === true) {
+      flag.admin = true;
+    } else {
+      delete flag.admin;
+    }
+
+    //  Save to the config item value
+    this.saveCurrentFeatureFlag(flag);
+  }
+
+  _onFeatureInternalChange = (e) => {
+    //  Get the current feature flag:
+    let flag = this.getCurrentFeatureFlag();
+
+    //  If 'internal' is true, set the attribute to true
+    //  If it's false, just remove the attribute:
+    if (e.target.checked === true) {
+      flag.internal = true;
+    } else {
+      delete flag.internal;
+    }
+
+    //  Save to the config item value
+    this.saveCurrentFeatureFlag(flag);
+  }
+
+  //  Get the current feature flag object
+  getCurrentFeatureFlag = () => {
     let value = {}
+
+    //  First, see if the current value can be parsed as JSON
     try {
       //  If it can, use that object.  If it can't, use a new object
       value = JSON.parse(this.state.value);
@@ -216,15 +375,17 @@ class AddConfigItem extends Component {
       console.log("Current config value doesn't appear to be a feature flag: Overwriting.");
     }
 
-    //  Set the 'enabled' attribute
-    value.enabled = e.target.value;
+    return value;
+  }
 
+  //  Save the current feature flag object
+  saveCurrentFeatureFlag = (flag) => {
     //  Serialize to JSON
-    let serializedValue = JSON.stringify(value);
+    let serializedFlag = JSON.stringify(flag);
 
-    //  Save to value
+    //  Save to the config item value
     this.setState({
-      value: serializedValue
+      value: serializedFlag
     });
   }
 
