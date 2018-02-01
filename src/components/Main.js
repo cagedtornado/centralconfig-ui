@@ -88,8 +88,8 @@ class Main extends Component {
                                     Header: 'Actions',
                                     Cell: ({row, original}) => (
                                         <div>
-                                            <EditConfigItem buttonLabel="Edit" item={row} applications={this.props.applications} /> 
-                                            <RemoveConfigItem buttonLabel="Remove" item={row} />
+                                            <EditConfigItem buttonLabel="Edit" item={original} applications={this.props.applications} /> 
+                                            <RemoveConfigItem buttonLabel="Remove" item={original} />
                                         </div>
                                     ),
                                     sortable: false,
