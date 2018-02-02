@@ -364,13 +364,15 @@ class AddConfigItem extends Component {
   }
 
   //  Get the current feature flag object
-  getCurrentFeatureFlag = () => {
+  getCurrentFeatureFlag = (params) => {
     let value = {}
+
+    let source = params || this.state.value;
 
     //  First, see if the current value can be parsed as JSON
     try {
       //  If it can, use that object.  If it can't, use a new object
-      value = JSON.parse(this.state.value);
+      value = JSON.parse(source);
     } catch (error) {
       console.log("Current config value doesn't appear to be a feature flag: Overwriting.");
     }

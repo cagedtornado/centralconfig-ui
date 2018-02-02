@@ -88,7 +88,7 @@ class Main extends Component {
                                     Header: 'Actions',
                                     Cell: ({row, original}) => (
                                         <div>
-                                            <EditConfigItem buttonLabel="Edit" item={original} applications={this.props.applications} /> 
+                                            <EditConfigItem key={original.id.toString()} buttonLabel="Edit" item={original} applications={this.props.applications} /> 
                                             <RemoveConfigItem buttonLabel="Remove" item={original} />
                                         </div>
                                     ),
