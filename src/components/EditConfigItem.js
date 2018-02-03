@@ -35,6 +35,7 @@ class EditConfigItem extends Component {
     this.state = {
       /* Component state */
       modal: false,
+      activeTab: '1',
 
       /* Config item */
       id: props.item.id,
@@ -45,8 +46,8 @@ class EditConfigItem extends Component {
 
       /* Feature flags */
       enabled: flag.enabled,
-      users: flag.users.join(", "),
-      groups: flag.groups.join(", ")      
+      users: "",
+      groups: ""      
     };
 
   }
