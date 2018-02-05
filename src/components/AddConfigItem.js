@@ -25,18 +25,38 @@ import classnames from 'classnames';
 //  Utils
 import CentralConfigAPIUtils from '../utils/CentralConfigAPIUtils';
 
+//  Initial state:
+const initialState = {
+  /* Component state */
+  modal: false,
+  activeTab: '1',
+
+  /* Config item */
+  app: "",
+  name: "",
+  value: "", /* Might be a JSON encoded feature flag */
+  machine: "",
+  
+  /* Feature flags */
+  enabled: "userules",
+  users: "",
+  groups: "",
+  percent_loggedin: "",
+  variant_name: "",
+  admin: false,
+  internal: false
+};
+
+/* 
+  Lifecycle:
+  - Feature flags have their own state fields, but also update 'value' with serialized JSON
+  - Cancel resets state
+*/
 class AddConfigItem extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      modal: false,
-      app: "",
-      name: "",
-      value: "",
-      machine: "",
-      activeTab: '1'
-    };
+    this.state = initialState;
 
   }
 
@@ -128,7 +148,7 @@ class AddConfigItem extends Component {
                       <div className="form-group row" style={{ marginTop: '10px' }}>
                         <label for="selectEnabled" className="col-sm-4 col-form-label">Enable / disable:</label>
                         <div className="col-sm-8">
-                          <select className="form-control" id="selectEnabled" onChange={this._onFeatureEnabledChange} >
+                          <select className="form-control" id="selectEnabled" value={this.state.enabled} onChange={this._onFeatureEnabledChange} >
                             <option selected value="userules">Use rules below (default)</option>
                             <option value="true">Enabled for everybody</option>
                             <option value="false">Disabled for everybody</option>
@@ -139,38 +159,38 @@ class AddConfigItem extends Component {
                       <div className="form-group row">
                         <label htmlFor="txtFFUsers" className="col-sm-3 col-form-label">Users</label>
                         <div className="col-sm-9">
-                          <input type="text" className="form-control" id="txtFFUsers" placeholder="Comma separated users to enable the feature for" onChange={this._onFeatureUsersChange} />
+                          <input type="text" className="form-control" id="txtFFUsers" value={this.state.users} onChange={this._onFeatureUsersChange} placeholder="Comma separated users to enable the feature for" />
                         </div>
                       </div>
 
                       <div className="form-group row">
                         <label htmlFor="txtFFGroups" className="col-sm-3 col-form-label">Groups</label>
                         <div className="col-sm-9">
-                          <input type="text" className="form-control" id="txtFFGroups" placeholder="Comma separated groups to enable the feature for" onChange={this._onFeatureGroupsChange} />
+                          <input type="text" className="form-control" id="txtFFGroups" value={this.state.groups} onChange={this._onFeatureGroupsChange} placeholder="Comma separated groups to enable the feature for" />
                         </div>
                       </div>
 
                       <div className="form-group row">
                         <label htmlFor="txtFFPercentLoggedIn" className="col-sm-4 col-form-label">Percent logged in</label>
                         <div className="col-sm-8">
-                          <input type="number" min="0" max="100" className="form-control" id="txtFFPercentLoggedIn" placeholder="Enable for % of logged in users" onChange={this._onFeaturePercentChange} />
+                          <input type="number" min="0" max="100" className="form-control" id="txtFFPercentLoggedIn" value={this.state.percent_loggedin} onChange={this._onFeaturePercentChange} placeholder="Enable for % of logged in users" />
                         </div>
                       </div>
 
                       <div className="form-group row">
                         <label htmlFor="txtFFVariant" className="col-sm-3 col-form-label">Variant</label>
                         <div className="col-sm-9">
-                          <input type="text" className="form-control" id="txtFFVariant" placeholder="Variant name to use" onChange={this._onFeatureVariantChange} />
+                          <input type="text" className="form-control" id="txtFFVariant" value={this.state.variant_name} onChange={this._onFeatureVariantChange} placeholder="Variant name to use" />
                         </div>
                       </div>
                     </form>
 
                     <div className="form-check">
-                      <input type="checkbox" className="form-check-input" id="chkAdmin" onChange={this._onFeatureAdminChange} />
+                      <input type="checkbox" className="form-check-input" id="chkAdmin" value={this.state.admin} onChange={this._onFeatureAdminChange} />
                       <label className="form-check-label" for="chkAdmin">Enable for Admin users</label>
                     </div>
                     <div className="form-check">
-                      <input type="checkbox" className="form-check-input" id="chkInternal" onChange={this._onFeatureInternalChange} />
+                      <input type="checkbox" className="form-check-input" id="chkInternal" value={this.state.internal} onChange={this._onFeatureInternalChange} />
                       <label className="form-check-label" for="chkInternal">Enable for Internal users</label>
                     </div>
 
@@ -182,7 +202,7 @@ class AddConfigItem extends Component {
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={this._onSave}>Save</Button>{' '}
-            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+            <Button color="secondary" onClick={this._onCancel}>Cancel</Button>
           </ModalFooter>
         </Modal>
       </div>
@@ -228,6 +248,11 @@ class AddConfigItem extends Component {
 
     //  Save to the config item value
     this.saveCurrentFeatureFlag(flag);
+
+    //  Save the field state:
+    this.setState({
+      enabled: enabled
+    });
   }
 
   _onFeatureUsersChange = (e) => {
@@ -261,6 +286,11 @@ class AddConfigItem extends Component {
 
     //  Save to the config item value
     this.saveCurrentFeatureFlag(flag);
+
+    //  Save the field state:
+    this.setState({
+      users: e.target.value
+    });
   }
 
   _onFeatureGroupsChange = (e) => {
@@ -294,6 +324,11 @@ class AddConfigItem extends Component {
 
     //  Save to the config item value
     this.saveCurrentFeatureFlag(flag);
+
+    //  Save the field state:
+    this.setState({
+      groups: e.target.value
+    });
   }
 
   _onFeaturePercentChange = (e) => {
@@ -312,6 +347,11 @@ class AddConfigItem extends Component {
 
     //  Save to the config item value
     this.saveCurrentFeatureFlag(flag);
+
+    //  Save the field state:
+    this.setState({
+      percent_loggedin: percent.toString()
+    });
   }
 
   _onFeatureVariantChange = (e) => {
@@ -329,6 +369,11 @@ class AddConfigItem extends Component {
 
     //  Save to the config item value
     this.saveCurrentFeatureFlag(flag);
+
+    //  Save the field state:
+    this.setState({
+      variant_name: variant
+    });
   }
 
   _onFeatureAdminChange = (e) => {
@@ -345,6 +390,11 @@ class AddConfigItem extends Component {
 
     //  Save to the config item value
     this.saveCurrentFeatureFlag(flag);
+
+    //  Save the field state:
+    this.setState({
+      admin: e.target.checked
+    });
   }
 
   _onFeatureInternalChange = (e) => {
@@ -361,6 +411,11 @@ class AddConfigItem extends Component {
 
     //  Save to the config item value
     this.saveCurrentFeatureFlag(flag);
+
+    //  Save the field state:
+    this.setState({
+      internal: e.target.checked
+    });
   }
 
   //  Get the current feature flag object
@@ -403,6 +458,20 @@ class AddConfigItem extends Component {
     //  Add the item and get all items:
     let APIUtils = new CentralConfigAPIUtils();
     APIUtils.setConfigItem(param).then(() => APIUtils.getAllConfigItems());
+
+    //  Reset the state
+    this.setState(initialState);
+
+    //  Hide the dialog:
+    this.setState({
+      modal: false
+    });
+  }
+
+  _onCancel = (e) => {
+
+    //  Reset the state
+    this.setState(initialState);
 
     //  Hide the dialog:
     this.setState({
