@@ -25,31 +25,19 @@ import classnames from 'classnames';
 //  Utils
 import CentralConfigAPIUtils from '../utils/CentralConfigAPIUtils';
 
+/* 
+  Lifecycle:
+  - Load state from props at construction
+  - Feature flags have their own state fields, but also update 'value' with serialized JSON
+  - Cancel resets state from props
+*/
 class EditConfigItem extends Component {
+
   constructor(props) {
     super(props);
 
-    //  Calculate initial feature flag state:
-    let flag = this.getCurrentFeatureFlag(props.item.value);
-    
-    this.state = {
-      /* Component state */
-      modal: false,
-      activeTab: '1',
-
-      /* Config item */
-      id: props.item.id,
-      app: props.item.application,
-      name: props.item.name,
-      value: props.item.value,
-      machine: props.item.machine,
-
-      /* Feature flags */
-      enabled: flag.enabled,
-      users: "",
-      groups: ""      
-    };
-
+    //  Get the initial state:
+    this.state = this.getInitialState(props);
   }
 
   //  Toggles the modal dialog
@@ -67,7 +55,39 @@ class EditConfigItem extends Component {
     }
   }
 
+  getInitialState(props) {
+    //  Calculate initial feature flag state:
+    let flag = this.getCurrentFeatureFlag(props.item.value);
+
+    let initialState = {
+      /* Component state */
+      modal: false,
+      activeTab: '1',
+
+      /* Config item */
+      id: props.item.id,
+      app: props.item.application,
+      name: props.item.name,
+      value: props.item.value, /* Might be a JSON encoded feature flag */
+      machine: props.item.machine,
+
+      /* Feature flags */
+      enabled: flag.enabled || "userules",
+      users: "",
+      groups: "",
+      percent_loggedin: flag.percent_loggedin || "",
+      variant_name: flag.variant_name || "",
+      admin: flag.admin || false,
+      internal: flag.internal || false
+    };
+
+    return initialState;
+  }
+
   render() {
+
+    console.log(this.state);
+
     return (
 
       <span>
@@ -140,7 +160,7 @@ class EditConfigItem extends Component {
                       <div className="form-group row" style={{ marginTop: '10px' }}>
                         <label for="selectEnabled" className="col-sm-4 col-form-label">Enable / disable:</label>
                         <div className="col-sm-8">
-                          <select className="form-control" id="selectEnabled" onChange={this._onFeatureEnabledChange} >
+                          <select className="form-control" id="selectEnabled" value={this.state.enabled} onChange={this._onFeatureEnabledChange} >
                             <option selected value="userules">Use rules below (default)</option>
                             <option value="true">Enabled for everybody</option>
                             <option value="false">Disabled for everybody</option>
@@ -151,14 +171,14 @@ class EditConfigItem extends Component {
                       <div className="form-group row">
                         <label htmlFor="txtFFUsers" className="col-sm-3 col-form-label">Users</label>
                         <div className="col-sm-9">
-                          <input type="text" className="form-control" id="txtFFUsers" placeholder="Comma separated users to enable the feature for" onChange={this._onFeatureUsersChange} />
+                          <input type="text" className="form-control" id="txtFFUsers" value={this.state.users} onChange={this._onFeatureUsersChange} placeholder="Comma separated users to enable the feature for" />
                         </div>
                       </div>
 
                       <div className="form-group row">
                         <label htmlFor="txtFFGroups" className="col-sm-3 col-form-label">Groups</label>
                         <div className="col-sm-9">
-                          <input type="text" className="form-control" id="txtFFGroups" placeholder="Comma separated groups to enable the feature for" onChange={this._onFeatureGroupsChange} />
+                          <input type="text" className="form-control" id="txtFFGroups" value={this.state.groups} onChange={this._onFeatureGroupsChange} placeholder="Comma separated groups to enable the feature for" />
                         </div>
                       </div>
 
@@ -178,11 +198,11 @@ class EditConfigItem extends Component {
                     </form>
 
                     <div className="form-check">
-                      <input type="checkbox" className="form-check-input" id="chkAdmin" onChange={this._onFeatureAdminChange} />
+                      <input type="checkbox" className="form-check-input" id="chkAdmin" checked={this.state.admin} onChange={this._onFeatureAdminChange} />
                       <label className="form-check-label" for="chkAdmin">Enable for Admin users</label>
                     </div>
                     <div className="form-check">
-                      <input type="checkbox" className="form-check-input" id="chkInternal" onChange={this._onFeatureInternalChange} />
+                      <input type="checkbox" className="form-check-input" id="chkInternal" checked={this.state.internal} onChange={this._onFeatureInternalChange} />
                       <label className="form-check-label" for="chkInternal">Enable for Internal users</label>
                     </div>
 
@@ -225,19 +245,197 @@ class EditConfigItem extends Component {
     });
   }
 
+  _onFeatureEnabledChange = (e) => {
+
+    //  Get the current feature flag:
+    let flag = this.getCurrentFeatureFlag();
+
+    let enabled = e.target.value;
+
+    if (enabled === "userules") {
+      delete flag.enabled;
+    } else {
+      //  Set the 'enabled' attribute
+      flag.enabled = enabled;
+    }
+
+    //  Save to the config item value
+    this.saveCurrentFeatureFlag(flag);
+
+    //  Save the field state:
+    this.setState({
+      enabled: enabled
+    });
+  }
+
+  _onFeatureUsersChange = (e) => {
+    //  Get the current feature flag:
+    let flag = this.getCurrentFeatureFlag();
+
+    //  Parse users into an array
+    let users = e.target.value.split(",").map(function (item) {
+      //  Trim each user
+      return item.trim();
+    });
+
+    //  Filter out blank users:
+    users = users.filter(function (item) {
+      let retval = false;
+
+      if (item !== "") {
+        retval = true;
+      }
+
+      return retval;
+    });
+
+    //  Now if we (still) have users, set the 'users' attribute
+    //  Otherwise, just remove the attribute:
+    if (users.length > 0) {
+      flag.users = users;
+    } else {
+      delete flag.users;
+    }
+
+    //  Save to the config item value
+    this.saveCurrentFeatureFlag(flag);
+
+    //  Save the field state:
+    this.setState({
+      users: e.target.value
+    });
+  }
+
+  _onFeatureGroupsChange = (e) => {
+    //  Get the current feature flag:
+    let flag = this.getCurrentFeatureFlag();
+
+    //  Parse groups into an array
+    let groups = e.target.value.split(",").map(function (item) {
+      //  Trim each user
+      return item.trim();
+    });
+
+    //  Filter out blank groups:
+    groups = groups.filter(function (item) {
+      let retval = false;
+
+      if (item !== "") {
+        retval = true;
+      }
+
+      return retval;
+    });
+
+    //  Now if we (still) have groups, set the 'groups' attribute
+    //  Otherwise, just remove the attribute:
+    if (groups.length > 0) {
+      flag.groups = groups;
+    } else {
+      delete flag.groups;
+    }
+
+    //  Save to the config item value
+    this.saveCurrentFeatureFlag(flag);
+
+    //  Save the field state:
+    this.setState({
+      groups: e.target.value
+    });
+  }
+
+  _onFeaturePercentChange = (e) => {
+    //  Get the current feature flag:
+    let flag = this.getCurrentFeatureFlag();
+
+    let percent = parseInt(e.target.value.trim(), 10);
+
+    //  If we don't have a number, just remove the attribute:
+    if (isNaN(percent)) {
+      delete flag.percent_loggedin;
+    } else {
+      //  Set the 'percent_loggedin' attribute
+      flag.percent_loggedin = percent;
+    }
+
+    //  Save to the config item value
+    this.saveCurrentFeatureFlag(flag);
+
+    //  Save the field state:
+    this.setState({
+      percent_loggedin: percent.toString()
+    });
+  }
+
+  _onFeatureVariantChange = (e) => {
+    //  Get the current feature flag:
+    let flag = this.getCurrentFeatureFlag();
+
+    let variant = e.target.value.trim();
+
+    if (variant === "") {
+      delete flag.variant_name;
+    } else {
+      //  Set the 'variant_name' attribute
+      flag.variant_name = variant;
+    }
+
+    //  Save to the config item value
+    this.saveCurrentFeatureFlag(flag);
+
+    //  Save the field state:
+    this.setState({
+      variant_name: variant
+    });
+  }
+
+  _onFeatureAdminChange = (e) => {
+    //  Get the current feature flag:
+    let flag = this.getCurrentFeatureFlag();
+
+    //  If 'admin' is true, set the attribute to true
+    //  If it's false, just remove the attribute:
+    if (e.target.checked === true) {
+      flag.admin = true;
+    } else {
+      delete flag.admin;
+    }
+
+    //  Save to the config item value
+    this.saveCurrentFeatureFlag(flag);
+
+    //  Save the field state:
+    this.setState({
+      admin: e.target.checked
+    });
+  }
+
+  _onFeatureInternalChange = (e) => {
+    //  Get the current feature flag:
+    let flag = this.getCurrentFeatureFlag();
+
+    //  If 'internal' is true, set the attribute to true
+    //  If it's false, just remove the attribute:
+    if (e.target.checked === true) {
+      flag.internal = true;
+    } else {
+      delete flag.internal;
+    }
+
+    //  Save to the config item value
+    this.saveCurrentFeatureFlag(flag);
+
+    //  Save the field state:
+    this.setState({
+      internal: e.target.checked
+    });
+  }
+
   //  Get the current feature flag object
   getCurrentFeatureFlag = (params) => {
-    
+
     //  Set default values:
-    let value = {
-      enabled: "userules",
-      users: [],
-      groups: [],
-      percent_loggedin: 0,
-      variant_name: "",
-      admin: false,
-      internal: false
-    };
+    let value = {};
 
     let source = params || this.state.value;
 
@@ -246,7 +444,7 @@ class EditConfigItem extends Component {
       //  If it can, use that object.  If it can't, use a new object
       value = JSON.parse(source);
     } catch (error) {
-      console.log("Current config value doesn't appear to be a feature flag: Overwriting.");      
+      console.log("Current config value doesn't appear to be a feature flag: Overwriting.");
     }
 
     return value;
