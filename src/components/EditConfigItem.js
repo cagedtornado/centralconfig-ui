@@ -86,8 +86,6 @@ class EditConfigItem extends Component {
 
   render() {
 
-    console.log(this.state);
-
     return (
 
       <span>
@@ -185,14 +183,14 @@ class EditConfigItem extends Component {
                       <div className="form-group row">
                         <label htmlFor="txtFFPercentLoggedIn" className="col-sm-4 col-form-label">Percent logged in</label>
                         <div className="col-sm-8">
-                          <input type="number" min="0" max="100" className="form-control" id="txtFFPercentLoggedIn" placeholder="Enable for % of logged in users" onChange={this._onFeaturePercentChange} />
+                          <input type="number" min="0" max="100" className="form-control" id="txtFFPercentLoggedIn" value={this.state.percent_loggedin} onChange={this._onFeaturePercentChange} placeholder="Enable for % of logged in users" />
                         </div>
                       </div>
 
                       <div className="form-group row">
                         <label htmlFor="txtFFVariant" className="col-sm-3 col-form-label">Variant</label>
                         <div className="col-sm-9">
-                          <input type="text" className="form-control" id="txtFFVariant" placeholder="Variant name to use" onChange={this._onFeatureVariantChange} />
+                          <input type="text" className="form-control" id="txtFFVariant" value={this.state.variant_name} onChange={this._onFeatureVariantChange} placeholder="Variant name to use" />
                         </div>
                       </div>
                     </form>
