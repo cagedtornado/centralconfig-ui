@@ -73,8 +73,8 @@ class EditConfigItem extends Component {
 
       /* Feature flags */
       enabled: flag.enabled || "userules",
-      users: "",
-      groups: "",
+      users: this.getStringFromArray(flag.users),
+      groups: this.getStringFromArray(flag.groups),
       percent_loggedin: flag.percent_loggedin || "",
       variant_name: flag.variant_name || "",
       admin: flag.admin || false,
@@ -441,9 +441,7 @@ class EditConfigItem extends Component {
     try {
       //  If it can, use that object.  If it can't, use a new object
       value = JSON.parse(source);
-    } catch (error) {
-      console.log("Current config value doesn't appear to be a feature flag: Overwriting.");
-    }
+    } catch (error) {}
 
     return value;
   }
@@ -457,6 +455,20 @@ class EditConfigItem extends Component {
     this.setState({
       value: serializedFlag
     });
+  }
+
+  //  Gets a comma seperated string from an array
+  getStringFromArray(array) {
+    let retval = "";
+
+    //  Make sure we have an array and it contains items, first:
+    if(array && array.length > 0) {
+      
+      //  If it does, join it with commas:
+      retval = array.join(", ");
+    }
+    
+    return retval;
   }
 
   _onSave = (e) => {
