@@ -12,3 +12,7 @@ div#acApplication div:last-child{
 .nav-tabs .nav-item {
     cursor: pointer;
 }
+
+.form-control {
+    color: #000 !important;
+}
