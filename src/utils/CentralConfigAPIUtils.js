@@ -32,7 +32,8 @@ class CentralConfigAPIUtils {
         return fetch(url,
         {
             method: 'get',
-            mode: 'cors'
+            mode: 'cors',
+            headers:{'content-type': 'application/json'}
         })
         .then(
             function (response) {
@@ -69,7 +70,8 @@ class CentralConfigAPIUtils {
         {
             mode: 'cors',
             method: 'post',
-            body: JSON.stringify(configItem)
+            body: JSON.stringify(configItem),
+            headers:{'content-type': 'application/json'}
         })
         .then(
             function (response) {
@@ -104,7 +106,8 @@ class CentralConfigAPIUtils {
         {
             mode: 'cors',
             method: 'post',
-            body: JSON.stringify(configItem)
+            body: JSON.stringify(configItem),
+            headers:{'content-type': 'application/json'}
         })
         .then(
             function (response) {
