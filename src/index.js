@@ -6,6 +6,9 @@ import registerServiceWorker from './registerServiceWorker';
 //  Stylesheets & images
 import 'bootswatch/dist/flatly/bootstrap.min.css';
 
+//	Polyfills (IE is the worst):
+import './polyfills';
+
 //  Utils:
 import CentralConfigAPIUtils from './utils/CentralConfigAPIUtils';
 
