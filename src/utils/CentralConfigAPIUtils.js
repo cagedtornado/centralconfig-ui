@@ -9,14 +9,25 @@ class CentralConfigAPIUtils {
 
     constructor()
     {
-        this.baseUrl = "";
+        let baseUrl = "";
+
+        //  If our current url contains /ui assume we're running
+        //  as part of a centralconfig service
+        //  Strip the /ui off to get the base url:
+        if(window.location.href.includes("/ui"))
+        {
+            baseUrl = window.location.href.substring(0, window.location.href.indexOf("/ui"));
+        }
+
+        this.baseUrl = baseUrl;
 		
 		//	Do a 'truthy' check to see if the config item is set
 		//	Confused?  See https://stackoverflow.com/a/5515349/19020
 		if(appconfig.serviceBaseHostPort)
 		{
 			this.baseUrl = `//${appconfig.serviceBaseHostPort}`;
-		}
+        }
+        
     }
 
     //	Gets all configuration items from the server

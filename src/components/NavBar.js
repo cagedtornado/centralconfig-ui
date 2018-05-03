@@ -55,7 +55,7 @@ class NavBar extends Component {
             <DropdownMenu>
               {this.props.applications
                 .filter(app => app !== "*")
-                .map(app => <DropdownItem onClick={() => this._onAppSelect(app)}>{app}</DropdownItem>)}
+                .map(app => <DropdownItem key={app} onClick={() => this._onAppSelect(app)}>{app}</DropdownItem>)}
               <DropdownItem divider />
               <DropdownItem onClick={() => this._onAppSelect("*")}>All Applications</DropdownItem>
             </DropdownMenu>
