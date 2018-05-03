@@ -1,6 +1,6 @@
 {
   "name": "centralconfig-ui",
-  "homepage": "http://centralconfig.com/ui",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
